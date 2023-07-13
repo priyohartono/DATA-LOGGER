@@ -1,0 +1,10 @@
+import datetime
+import time
+
+while True:
+    current_time = datetime.datetime.now()
+    if current_time.minute % 10 == 0 and current_time.second == 0:
+        print("OK")
+        print(current_time)
+    
+    time.sleep(1)  # Wait for 1 second before checking the time again

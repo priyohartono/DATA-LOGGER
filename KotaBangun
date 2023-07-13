@@ -1,0 +1,47 @@
+import requests
+#import urllib.parse
+from datetime import datetime, timezone
+import subprocess
+import time
+
+# URL
+url = "http://202.90.198.212/logger/write.php?dat="
+
+# Get ID Stastions
+id = "150063"
+
+
+
+try:
+    while True:
+        # Get the current UTC datetime
+        dt_utc = datetime.now(timezone.utc)
+
+        # Convert to a string
+        date_string = dt_utc.strftime("%d%m%Y%H%M%S")
+
+        current_time = datetime.now()
+
+        # Convert tip_count to rainfall measurement using the specifications of your rain gauge
+        # For example, if 1 tip equals 0.2 mm of rainfall:
+        # Get RR
+        RR = "000.0"
+        batt = "12.8"
+        # Data
+        data = id+";"+date_string+";"+RR+";"+batt
+
+        # URL
+        base_url = url+data
+
+        if dt_utc.minute % 10 == 0 and dt_utc.second == 0:
+            print("OK")
+            print(dt_utc)
+            response = requests.get(base_url)
+
+        # Handle the response
+            print(response.text)
+    
+            time.sleep(1)  # Wait for 1 second before checking the time again
+
+except KeyboardInterrupt:
+    print("Exiting...")

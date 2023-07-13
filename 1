@@ -1,0 +1,99 @@
+import requests
+import urllib.parse
+from datetime import datetime, timezone
+from gpiozero import Button
+import subprocess
+import time
+import csv
+
+# Counter
+bucket = Button(17)  # GPIO pin connected to the tipping bucket rain gauge
+tip_count = 0
+
+def count_tips():
+    global tip_count
+    tip_count += 1
+
+bucket.when_pressed = count_tips
+print(tip_count)
+
+# CSV log file
+filename1 = 'data1menit.csv'
+filename10 = 'data10menit.csv'
+
+# Reset counter
+def reset_tip_count():
+    global tip_count
+    tip_count = 0
+    print("Resetting tip count")
+
+# URL
+url = "http://202.90.198.212/logger/write.php?dat="
+
+# Get ID Stations
+id = "ID SITE"
+
+#Suhu CPU
+def get_cpu_temperature():
+    command = "vcgencmd measure_temp"
+    result = subprocess.check_output(command, shell=True)
+    temperature = result.decode("utf-8")
+    temperature = temperature.replace("temp=", "").replace("'C\n", "")
+    return float(temperature)
+
+cpu_temp = str(get_cpu_temperature())
+
+try:
+    while True: 
+        # Get the current UTC datetime
+        dt_utc = datetime.now(timezone.utc)
+
+        # Convert to a string
+        date_string = dt_utc.strftime("%d%m%Y%H%M%S")
+        
+        # Convert tip_count to rainfall measurement using the specifications of your rain gauge
+        rainfall = tip_count * 0.2
+        rainfall = format(rainfall, ".1f")
+
+        # Get RR
+        RR = rainfall
+
+        # Pengumpulan data ke string
+        data = id+";"+date_string+";"+RR+";"+cpu_temp+";0.0"
+
+        # Pengumpulan string data ke URL
+        base_url = url+data
+
+        # Simpan data ke CSV 1 menit
+        def write_to_csv1(date_string, rainfall):
+            with open(filename1, 'a', newline='') as csvfile:
+                writer = csv.writer(csvfile)
+                writer.writerow([date_string, rainfall])
+        
+        # Simpan data ke CSV 10 menit
+        def write_to_csv10(date_string, rainfall):
+            with open(filename10, 'a', newline='') as csvfile:
+                writer = csv.writer(csvfile)
+                writer.writerow([date_string, rainfall])
+
+        # Data 1 menit
+        if dt_utc.second == 0:
+            print("Rainfall 1:", rainfall)
+            print(date_string)
+            write_to_csv1(date_string, rainfall)
+            time.sleep(1)
+
+        # Data 10 menit
+        if dt_utc.minute % 10 == 0 and dt_utc.second == 0:
+            print("Rainfall 10:", rainfall)
+            print(date_string)
+            write_to_csv10(date_string, rainfall)
+            time.sleep(1)
+
+        # Reset tip count at midnight (UTC)
+        if dt_utc.hour == 0 and dt_utc.minute == 0 and dt_utc.second == 5:
+            reset_tip_count()
+            time.sleep(1)
+
+except KeyboardInterrupt:
+    print("Exiting...")

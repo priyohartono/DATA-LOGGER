@@ -1,0 +1,17 @@
+from datetime import datetime, timezone
+import time
+
+try:
+    while True:
+        # Get the current UTC datetime
+        dt_utc = datetime.now(timezone.utc)
+
+        # Convert to a string
+        date_string = dt_utc.strftime("%Y-%m-%d %H:%M:%S")
+
+        if dt_utc.second == 0 :
+            print(date_string)
+            time.sleep(60)
+
+except KeyboardInterrupt:
+    print("er")

@@ -1,0 +1,25 @@
+from gpiozero import Button
+import time
+
+bucket = Button(17)  # GPIO pin connected to the tipping bucket rain gauge
+tip_count = 0
+
+def count_tips():
+    global tip_count
+    tip_count += 1
+
+bucket.when_pressed = count_tips
+print(tip_count)
+try:
+    while True:
+        #time.sleep(60)  # Wait for a minute
+        print("Tips:", tip_count)
+        # Convert tip_count to rainfall measurement using the specifications of your rain gauge
+        # For example, if 1 tip equals 0.2 mm of rainfall:
+        rainfall = tip_count * 0.2
+        rainfall = format(rainfall, ".1f")
+        print("Rainfall (mm):", rainfall)
+        #tip_count = 0
+
+except KeyboardInterrupt:
+    print("Exiting...")

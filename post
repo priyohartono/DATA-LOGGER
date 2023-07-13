@@ -1,0 +1,21 @@
+import requests
+import json
+
+# Define the URL of the server
+url = "http://202.90.198.212/logger/write.php?dat=150065;21062023033000;0.0;13.20;27.931"
+
+# Define the JSON data you want to send
+data =    "argsmd;21062023033000;0.0;13.20;27.931"
+
+# Convert the data to JSON format
+json_data = json.dumps(data)
+
+# Send the POST request
+response = requests.post(url, data=json_data)
+print(data)
+
+# Check the response
+if response.status_code == requests.codes.ok:
+    print("Data sent successfully!")
+else:
+    print("Failed to send data. Status code:", response.status_code)

@@ -1,0 +1,6 @@
+import requests
+
+url = "http://202.90.198.212/logger/write_test.php?"
+
+response = requests.get(url)
+print(response.text)

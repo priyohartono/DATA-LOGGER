@@ -1,6 +1,21 @@
-import requests
+import ping3
 
-url = "http://202.90.198.212/logger/write_test.php?"
+def ping_server(ip_address):
+    try:
+        response_time = ping3.ping(ip_address)
+        if response_time is not None:
+            print(f"Server {ip_address} responded in {response_time} ms.")
+            return True
+        else:
+           print(f"Server {ip_address} is unreachable.")
+           return False
+        
+    except Exception as e:
+        print("Error:", e)
 
-response = requests.get(url)
-print(response.text)
+if ping_server is True:
+    print("0")
+else:
+    print("1")
+# Example usage
+ping_server("202.90.198.212")                   

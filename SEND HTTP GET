@@ -1,7 +1,7 @@
 import requests
 #import urllib.parse
 
-url = 'http://202.90.198.212/logger/write.php?dat=150063;03072023012000;0.0;13.20'
+url = 'http://202.90.198.212/logger/write.php?dat=150063;030720d3012000;0.0;13.20'
 #data = '150065;21062023033000;0.0;13.20;27.931'
 
 # URL encode the data
@@ -9,9 +9,14 @@ url = 'http://202.90.198.212/logger/write.php?dat=150063;03072023012000;0.0;13.2
 
 # Construct the URL with the encoded data
 #url = f'{base_url}?data={encoded_data}'
+try:
+    while True:
+        response = requests.get(url)
+        print(response.text)
 
+except Exception:
+    res = response.raise_for_status()
+    print(res)
 # Send the GET request
-response = requests.get(url)
 
 # Handle the response
-print(response.text)

@@ -14,7 +14,6 @@ with open('FILE.csv', 'r') as file:
 # Open the CSV file in write mode
 with open('FILE.csv', 'w', newline='') as file:
     # Create a CSV writer object
-    
     writer = csv.writer(file)
 
     # Write the remaining lines back to the file

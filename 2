@@ -9,9 +9,6 @@ import csv
 # Get ID Stations
 id = "ARGSMD"
 
-def get_time():
-    datetime.now(timezone.utc)
-
 # Counter
 bucket = Button(17)  # GPIO pin connected to the tipping bucket rain gauge
 tip_count = 0
@@ -47,10 +44,10 @@ def get_cpu_temperature():
 try:
     while True: 
         # Get the current UTC datetime
-        get_time
+        dt_utc = datetime.now(timezone.utc)
         
         # Convert to a string
-        date_string = get_time.strftime("%d%m%Y%H%M%S")
+        date_string = dt_utc.strftime("%d%m%Y%H%M%S")
         
         # Convert tip_count to rainfall measurement using the specifications of your rain gauge
         rainfall = tip_count * 0.2
@@ -68,27 +65,27 @@ try:
         # Pengumpulan string data ke URL
         base_url = url+data
 
-        # Simpan data ke CSV 1 menit
+        # Fungsi CSV 1 menit
         def write_to_csv1(data):
             with open(filename1, 'a', newline='') as csvfile:
                 writer = csv.writer(csvfile)
                 writer.writerow([data])
         
-        # Simpan data ke CSV 10 menit
+        # Fungsi CSV 10 menit
         def write_to_csv10(data):
             with open(filename10, 'a', newline='') as csvfile:
                 writer = csv.writer(csvfile)
                 writer.writerow([data])
 
         # Data 1 menit
-        if get_time.second == 0:
+        if dt_utc.second == 0:
             print("Data 1 menit:", data)
             #print(date_string)
             write_to_csv1(data)
             time.sleep(1)
 
         # Data 10 menit
-        if get_time.minute % 10 == 0 and get_time.second == 0:
+        if dt_utc.minute % 10 == 0 and dt_utc.second == 0:
             print("Data 10 menit:", data)
             #print(date_string)
             write_to_csv10(data)
@@ -97,11 +94,9 @@ try:
             time.sleep(1)
 
         # Reset tip count at midnight (UTC)
-        if get_time.hour == 0 and dt_utc.minute == 0 and get_time.second == 5:
+        if dt_utc.hour == 0 and dt_utc.minute == 0 and dt_utc.second == 5:
             reset_tip_count()
             time.sleep(1)
 
 except KeyboardInterrupt:
     print("Exiting...")
- 
-

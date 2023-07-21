@@ -14,9 +14,8 @@ try:
         response = requests.get(url)
         print(response.text)
 
-except Exception:
-    res = response.raise_for_status()
-    print(res)
+except requests.exceptions.ConnectionError, e:
+    print(e)
 # Send the GET request
 
 # Handle the response

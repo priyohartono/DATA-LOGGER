@@ -5,11 +5,11 @@ url='http://202.90.198.212/logger/write.php?dat='
 try:
     r = requests.get(url,timeout=3)
     r.raise_for_status()
-except requests.exceptions.RequestException:
-    return False
-except requests.exceptions.HTTPError:
-    return False
-except requests.exceptions.ConnectionError:
-    return False
-except requests.exceptions.Timeout :
-    return False
+except requests.exceptions.RequestException as a:
+    print(a)
+except requests.exceptions.HTTPError as b:
+    print(b)
+except requests.exceptions.ConnectionError as c:
+    print(c)
+except requests.exceptions.Timeout as d :
+    print(d)

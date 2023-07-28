@@ -1,6 +1,6 @@
 import requests
 
-url='http://202.90.198.212/logger/write.php?'
+url='http://202.90.198.212/logger/write.php?dat=ARGSMD;0000000'
 
 try:
     r = requests.get(url,timeout=3)

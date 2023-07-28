@@ -1,0 +1,21 @@
+import csv
+
+def check_csv_file(csv_file):
+    # Open the CSV file in read mode
+    with open(csv_file, 'r') as file:
+        # Create a CSV reader object
+        reader = csv.reader(file)
+        
+        # Check if the CSV file has any rows
+        has_rows = any(reader)
+        
+    return has_rows
+
+# Specify the path or name of your CSV file
+csv_file = 'FILE.csv'
+
+# Check if the CSV file has any rows
+if check_csv_file(csv_file):
+    print("CSV file has rows.")
+else:
+    print("CSV file is empty.")

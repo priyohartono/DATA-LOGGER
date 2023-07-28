@@ -70,16 +70,16 @@ def koneksi(url):
     try:
         r = requests.get(url,timeout=3)
         r.raise_for_status()
-        print(r.text)
+        #print(r.text)
         return True
-    except requests.exceptions.RequestException as a:
+    #except requests.exceptions.RequestException:
+    #    return False
+    #except requests.exceptions.HTTPError:
+    #    return False
+    except requests.exceptions.ConnectionError:
         return False
-    except requests.exceptions.HTTPError as b:
-        return False
-    except requests.exceptions.ConnectionError as c:
-        return False
-    except requests.exceptions.Timeout as d :
-        return False
+    #except requests.exceptions.Timeout:
+    #    return False
 
 #Fungsi Utama
 try:
@@ -137,8 +137,10 @@ try:
             #print(date_string)
             write_to_csv10(data)
             url = base_url
+            print (url)
             #response = requests.get(url)
             koneksi(url)
+
             if koneksi == True :
                 print("Data terkirim")
             else :

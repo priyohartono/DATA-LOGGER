@@ -68,21 +68,27 @@ else:
 #Pengiriman ke HTTP SERVER
 def koneksi(url):
     try:
-        r = requests.get(url,timeout=3)
+        response = requests.get(url)
+        return response.status_code >= 200 and response.status_code < 300
+    except requests.exceptions.RequestException:
+        return False
+    #try:
+    #    r = requests.get(url,timeout=3)
         #r.raise_for_status()
         #print(r.text)
-        if r.status_code >= 200 and r.status_code < 300:
-            return True
-        else:
-            return False
+    #    if r.status_code >= 200 and r.status_code < 300:
+    #        return True
+    #    else:
+    #        return False
     #except requests.exceptions.RequestException:
     #    return False
     #except requests.exceptions.HTTPError:
     #    return False
-    except requests.exceptions.ConnectionError:
-        return False
+    #except requests.exceptions.ConnectionError:
+    3    return False
     #except requests.exceptions.Timeout:
     #    return False
+
 
 #Fungsi Utama
 try:

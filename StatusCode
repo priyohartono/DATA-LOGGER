@@ -1,1 +1,23 @@
 import requests
+
+def is_request_successful(url):
+    try:
+        response = requests.get(url)
+        return response.status_code >= 200 and response.status_code < 300
+    except requests.exceptions.RequestException:
+        return False
+
+# Example usage:
+url1 = "https://www.example.com"
+url2 = "https://www.nonexistenturl1234.com"
+
+result1 = is_request_successful(url1)
+print(f"Request to {url1} successful: {result1}")
+
+result2 = is_request_successful(url2)
+print(f"Request to {url2} successful: {result2}")
+
+if result1 is True :
+    print("1")
+else :
+    print("0")

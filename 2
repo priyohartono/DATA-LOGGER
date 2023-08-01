@@ -34,7 +34,6 @@ def reset_tip_count():
 # URL
 url = "http://202.90.198.212/logger/write.php?dat="
 host = "202.90.198.212"
-#host2 = "http://202.90.198.212/logger/write.php?"
 
 #Suhu CPU
 def get_cpu_temperature():
@@ -65,21 +64,37 @@ if ping_server() == True:
 else:
     print("Ping Gagal")
 
-#Pengiriman ke HTTP SERVER
+# Pengiriman ke HTTP SERVER
 def koneksi(url):
     try:
-        r = requests.get(url, timeout=10)
-        #r.raise_for_status()
-        #print(r.text)
+        r = requests.get(url)
         return r.status_code >= 200 and r.status_code < 300
-    #except requests.exceptions.RequestException:
-    #    return False
-    #except requests.exceptions.HTTPError:
-    #    return False
     except requests.exceptions.ConnectionError:
         return False
-    #except requests.exceptions.Timeout:
-    #    return False
+    
+# Cek data gagal kirim
+def check_temp_file(filenametemp):
+    # Open the CSV file in read mode
+    with open(filenametemp, 'r') as file:
+        # Create a CSV reader object
+        reader = csv.reader(file)
+        
+        # Check if the CSV file has any rows
+        has_rows = any(reader)
+        
+    return has_rows
+
+# Ambil baris pertama pada data gagal kirim
+def get_first_line(filenametemp):
+    with open('FILE.csv', 'r') as file:
+    # Create a CSV reader object
+    reader = csv.reader(file)
+
+    # Get the first line
+    first_line = next(reader)
+
+    # Read the remaining lines
+    remaining_lines = list(reader)
 
 #Fungsi Utama
 try:
@@ -136,14 +151,14 @@ try:
             print("Data 10 menit:", data)
             #print(date_string)
             write_to_csv10(data)
-            url = base_url
             #response = requests.get(url)
-            koneksi(url)
-            result = koneksi(url)
+            #koneksi(url)
+            result = koneksi(base_url)
             if result is True :
                 print("Data terkirim")
             else :
                 print("Data tidak terkirim")
+                # Simpan data gagal kirim ke csv
                 write_to_csvtemp(data)
             print(koneksi)
             time.sleep(1)
@@ -152,6 +167,13 @@ try:
         if dt_utc.hour == 0 and dt_utc.minute == 0 and dt_utc.second == 5:
             reset_tip_count()
             time.sleep(1)
+
+        # Pengiriman ulang data gagal kirim
+        #if dt_utc.hour % 3 == 0 and dt_utc.microsecond == 0:
+        #    check_temp_file()
+        #    if check_temp_file(filenametemp):
+
+                
 
 except KeyboardInterrupt:
     print("Exiting...")

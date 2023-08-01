@@ -67,7 +67,7 @@ else:
 # Pengiriman ke HTTP SERVER
 def koneksi(url):
     try:
-        r = requests.get(url)
+        r = requests.get(url, timeout = 10)
         return r.status_code >= 200 and r.status_code < 300
     except requests.exceptions.ConnectionError:
         return False

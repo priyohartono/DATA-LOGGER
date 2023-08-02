@@ -81,20 +81,16 @@ def check_temp_file(filenametemp):
         
         # Check if the CSV file has any rows
         has_rows = any(reader)
-        
     return has_rows
 
 # Ambil baris pertama pada data gagal kirim
-def get_first_line(filenametemp):
-    with open('FILE.csv', 'r') as file:
-    # Create a CSV reader object
-    reader = csv.reader(file)
+def get_first_line()
+    with open('FILE.csv', 'w', newline='') as file:
+        # Create a CSV writer object
+        writer = csv.writer(file)
 
-    # Get the first line
-    first_line = next(reader)
-
-    # Read the remaining lines
-    remaining_lines = list(reader)
+        # Write the remaining lines back to the file
+        writer.writerows(remaining_lines)
 
 #Fungsi Utama
 try:

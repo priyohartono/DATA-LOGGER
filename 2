@@ -78,19 +78,18 @@ def check_temp_file(filenametemp):
     with open(filenametemp, 'r') as file:
         # Create a CSV reader object
         reader = csv.reader(file)
-        
         # Check if the CSV file has any rows
         has_rows = any(reader)
     return has_rows
 
 # Ambil baris pertama pada data gagal kirim
-def get_first_line()
-    with open('FILE.csv', 'w', newline='') as file:
+def get_first_line(filenametemp):
+    with open(filenametemp, 'r') as file:
         # Create a CSV writer object
-        writer = csv.writer(file)
+        reader = csv.reader(file)
+        first_line = next(reader)
 
-        # Write the remaining lines back to the file
-        writer.writerows(remaining_lines)
+        print(first_line)
 
 #Fungsi Utama
 try:
@@ -165,9 +164,10 @@ try:
             time.sleep(1)
 
         # Pengiriman ulang data gagal kirim
-        #if dt_utc.hour % 3 == 0 and dt_utc.microsecond == 0:
-        #    check_temp_file()
-        #    if check_temp_file(filenametemp):
+        if dt_utc.hour % 3 == 0 and dt_utc.microsecond == 0:
+            check_temp_file()
+            if check_temp_file(filenametemp):
+                get_first_line()
 
 except KeyboardInterrupt:
     print("Exiting...")

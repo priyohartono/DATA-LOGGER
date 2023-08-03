@@ -9,16 +9,16 @@ with open('FILE.csv', 'r') as file:
     first_line = next(reader)
 
     # Read the remaining lines
-    remaining_lines = list(reader)
+    #remaining_lines = list(reader)
 
 # Open the CSV file in write mode
-with open('FILE.csv', 'w', newline='') as file:
+#with open('FILE.csv', 'w', newline='') as file:
     # Create a CSV writer object
-    writer = csv.writer(file)
+#    writer = csv.writer(file)
 
     # Write the remaining lines back to the file
-    writer.writerows(remaining_lines)
+#    writer.writerows(remaining_lines)
 
 # Print the first line
 print("First line:", first_line)
-first_line.pop()
+#first_line.pop()

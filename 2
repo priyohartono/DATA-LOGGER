@@ -164,10 +164,12 @@ try:
             time.sleep(1)
 
         # Pengiriman ulang data gagal kirim
-        if dt_utc.hour % 3 == 0 and dt_utc.microsecond == 0:
+        if dt_utc.hour % 3 == 0 and dt_utc.minute == 5:
             check_temp_file()
             if check_temp_file(filenametemp):
-                get_first_line()
+                data_gagal = get_first_line()
+                
 
-except KeyboardInterrupt:
-    print("Exiting...")
+
+except Exception as e:
+    print("SYSTEM ERROR : ", e)

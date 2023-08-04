@@ -51,7 +51,7 @@ def ping_server():
             return True
         else:
             return False
-
+        
     except Exception as e:
         print("Error:", e)
 
@@ -135,17 +135,13 @@ try:
         # Data 1 menit
         if dt_utc.second == 0:
             print("Data 1 menit:", data)
-            #print(date_string)
             write_to_csv1(data)
             time.sleep(1)
 
         # Data 10 menit
         if dt_utc.minute % 10 == 0 and dt_utc.second == 0:
             print("Data 10 menit:", data)
-            #print(date_string)
             write_to_csv10(data)
-            #response = requests.get(url)
-            #koneksi(url)
             result = koneksi(base_url)
             if result is True :
                 print("Data terkirim")

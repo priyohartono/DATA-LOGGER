@@ -48,10 +48,8 @@ def ping_server():
     try:
         response_time = ping3.ping(host)
         if response_time is not None and response_time is not False:
-            #print(f"Server {host} responded in {response_time} ms.")
             return True
         else:
-            #print(f"Server {host} is unreachable.")
             return False
 
     except Exception as e:
@@ -88,7 +86,6 @@ def get_first_line(filenametemp):
         # Create a CSV writer object
         reader = csv.reader(file)
         first_line = next(reader)
-
         print(first_line)
 
 #Fungsi Utama
@@ -165,12 +162,14 @@ try:
             time.sleep(1)
 
         # Pengiriman ulang data gagal kirim
-        if dt_utc.hour % 3 == 0 and dt_utc.minute == 5:
+        if dt_utc.hour % 2 == 0 and dt_utc.minute == 5:
             check_temp_file()
             if check_temp_file(filenametemp):
-                data_gagal = get_first_line()
-                print("", data_gagal)
-                result = koneksi(base_url1)
+                ping_server()
+                if ping_server == True:
+                    data_gagal = get_first_line()
+                    print("", data_gagal)
+                    result = koneksi(base_url1)
         time.sleep(1)
 
 except Exception as e:

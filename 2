@@ -115,6 +115,7 @@ try:
 
         # Pengumpulan string data ke URL
         base_url = url+data
+        base_url1 = url+(get_first_line)
 
         # Fungsi CSV 1 menit
         def write_to_csv1(data):
@@ -168,8 +169,9 @@ try:
             check_temp_file()
             if check_temp_file(filenametemp):
                 data_gagal = get_first_line()
-                
-
+                print("", data_gagal)
+                result = koneksi(base_url1)
+        time.sleep(1)
 
 except Exception as e:
     print("SYSTEM ERROR : ", e)

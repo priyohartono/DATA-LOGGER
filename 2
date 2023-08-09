@@ -87,7 +87,7 @@ def get_first_line(filenametemp):
         reader = csv.reader(file)
         first_line = next(reader)
         print(first_line)
-
+ 
 #Fungsi Utama
 try:
     while True: 
@@ -111,9 +111,9 @@ try:
         data = id+";"+date_string+";"+RR+";"+cpu_temp+";0.0"
 
         # Pengumpulan string data ke URL
-        base_url = url+data
-        base_url1 = url + get_first_line
-
+        base_url = url + data
+        base_url1 = url + get_first_line(filenametemp)
+        
         # Fungsi CSV 1 menit
         def write_to_csv1(data):
             with open(filename1, 'a', newline='') as csvfile:

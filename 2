@@ -112,7 +112,7 @@ try:
 
         # Pengumpulan string data ke URL
         base_url = url + data
-        base_url1 = url + get_first_line(filenametemp)
+        #base_url1 = url + get_first_line(filenametemp)
         
         # Fungsi CSV 1 menit
         def write_to_csv1(data):
@@ -163,8 +163,9 @@ try:
             if check_temp_file(filenametemp):
                 ping_server()
                 if ping_server == True:
-                    data_gagal = get_first_line()
+                    data_gagal = get_first_line(filenametemp)
                     print("", data_gagal)
+                    base_url1 = url + data_gagal
                     result = koneksi(base_url1)
         time.sleep(1)
 

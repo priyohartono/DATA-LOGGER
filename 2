@@ -10,7 +10,7 @@ import ping3
 id = "ARGSMD"
 
 # Counter
-bucket = i  # GPIO pin connected to the tipping bucket rain gauge
+bucket = Button(17)  # GPIO pin connected to the tipping bucket rain gauge
 tip_count = 0
 
 def count_tips():

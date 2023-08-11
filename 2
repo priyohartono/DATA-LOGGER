@@ -10,7 +10,7 @@ import ping3
 id = "ARGSMD"
 
 # Counter
-bucket = Button(17)  # GPIO pin connected to the tipping bucket rain gauge
+bucket = i  # GPIO pin connected to the tipping bucket rain gauge
 tip_count = 0
 
 def count_tips():
@@ -161,8 +161,8 @@ try:
         if dt_utc.hour % 1 == 0 and dt_utc.minute == 5:
             check_temp_file(filenametemp)
             if check_temp_file(filenametemp):
-                ping_server()
-                if ping_server() == True:
+                #ping_server()
+                if ping_server(host) == True:
                     data_gagal = get_first_line(filenametemp)
                     print("", data_gagal)
                     base_url1 = url + data_gagal

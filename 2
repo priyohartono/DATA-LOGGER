@@ -159,7 +159,7 @@ try:
 
         # Pengiriman ulang data gagal kirim
         if dt_utc.hour % 1 == 0 and dt_utc.minute == 5:
-            check_temp_file(filenametemp)
+            #check_temp_file(filenametemp)
             if check_temp_file(filenametemp):
                 ping_server
                 if ping_server() == True:

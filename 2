@@ -160,9 +160,10 @@ try:
         # Pengiriman ulang data gagal kirim
         if dt_utc.hour % 1 == 0 and dt_utc.minute == 5:
             #check_temp_file(filenametemp)
+            print("SCAN FILE GAGAL KIRIM")
             if check_temp_file(filenametemp):
                 ping_server
-                if ping_server == True:
+                if ping_server(host) == True:
                     data_gagal = get_first_line(filenametemp)
                     print("", data_gagal)
                     base_url1 = url + data_gagal

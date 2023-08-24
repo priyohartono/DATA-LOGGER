@@ -162,7 +162,7 @@ try:
             #check_temp_file(filenametemp)
             if check_temp_file(filenametemp):
                 ping_server
-                if ping_server() == True:
+                if ping_server == True:
                     data_gagal = get_first_line(filenametemp)
                     print("", data_gagal)
                     base_url1 = url + data_gagal

@@ -158,7 +158,7 @@ try:
             time.sleep(1)
 
         # Pengiriman ulang data gagal kirim
-        if dt_utc.hour % 1 == 0 and dt_utc.minute == 5:
+        if dt_utc.hour % 1 == 0 and dt_utc.minute == 5 and dt_utc.second == 0:
             #check_temp_file(filenametemp)
             print("SCAN FILE GAGAL KIRIM")
             if check_temp_file(filenametemp):

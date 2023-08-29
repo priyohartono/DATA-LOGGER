@@ -158,18 +158,21 @@ try:
             time.sleep(1)
 
         # Pengiriman ulang data gagal kirim
-        if dt_utc.hour % 1 == 0 and dt_utc.minute == 5 and dt_utc.second == 0:
+        #if dt_utc.hour % 1 == 0 and dt_utc.minute == 5 and dt_utc.second == 0:
+        if dt_utc.minute % 10 == 5 and dt_utc.second == 0:
             check_temp_file
-            print("SCAN FILE GAGAL KIRIM")
+            print("SCAN DATA GAGAL KIRIM")
             if check_temp_file:
+                print("DATA DITEMUKAN")
                 ping_server
                 if ping_server == True:
+                    print("AMBIL DATA GAGAL KIRIM")
                     data_gagal = get_first_line(filenametemp)
                     print("", data_gagal)
                     base_url1 = url + data_gagal
                     result = koneksi(base_url1)
                 else:
-                    None
+                    print("DATA TIDAK DITEMUKAN")
         time.sleep(1)
 
 except Exception as e:

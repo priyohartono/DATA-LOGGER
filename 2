@@ -86,7 +86,8 @@ def get_first_line(filenametemp):
         # Create a CSV writer object
         reader = csv.reader(file)
         first_line = next(reader)
-        print(first_line)
+        return first_line
+        #print(first_line)
  
 #Fungsi Utama
 try:
@@ -168,7 +169,7 @@ try:
                 if ping_server:
                     print("AMBIL DATA GAGAL KIRIM")
                     get_first_line(filenametemp)
-                    data_gagal = get_first_line(filenametemp)
+                    data_gagal = get_first_line()
                     base_url1 = url + data_gagal
                     print(base_url1)
                     #result = koneksi(base_url1)

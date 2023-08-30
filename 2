@@ -169,7 +169,7 @@ try:
                 if ping_server:
                     print("AMBIL DATA GAGAL KIRIM")
                     get_first_line(filenametemp)
-                    data_gagal = str(get_first_line(filenametemp)).removeprefix("['","']")
+                    data_gagal = str(get_first_line(filenametemp)).replace("['","").replace("]'","")
                     base_url1 = url + data_gagal
                     print(base_url1)
                     #result = koneksi(base_url1)

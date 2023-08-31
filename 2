@@ -90,11 +90,18 @@ def get_first_line(filenametemp):
         return first_line
 
 # Hapus data kirim ulang
-def delete_temp(filenametemp):
-    df = pd.read_csv(filenametemp)
-    line_to_delete = [0]
-    df = df.drop(line_to_delete)
-    df.to_csv(filenametemp , index = False)
+#def delete_temp(filenametemp):
+#    df = pd.read_csv(filenametemp)
+#    line_to_delete = [0]
+#    df = df.drop(line_to_delete)
+#    df.to_csv(filenametemp , index = False)
+
+def delete_first_line_in_csv(filenametemp):
+    with open(filenametemp, 'r') as file:
+        lines = file.readlines()  # Read all lines into a list
+
+    with open(filenametemp, 'w') as file:
+        file.writelines(lines[1:])  # Write all lines except the first one
 
 #Fungsi Utama
 try:
@@ -182,7 +189,7 @@ try:
                     result = koneksi(base_url1)
                     if result is True:
                         print("...........PENGIRIMAN ULANG BERHASIL..........")
-                        delete_temp()
+                        delete_first_line_in_csv(filenametemp)
                     else:
                         print("..........PENGIRIMAN ULANG GAGAL..........")
                 else:

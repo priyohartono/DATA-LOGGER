@@ -67,7 +67,7 @@ def koneksi(url):
     try:
         r = requests.get(url, timeout = 10)
         return r.status_code >= 200 and r.status_code < 300
-    except requests.exceptions.ConnectionError:
+    except requests.exceptions.RequestException:
         return False
     
 # Cek data gagal kirim
@@ -173,6 +173,7 @@ try:
 
         # Pengiriman ulang data gagal kirim
         #if dt_utc.hour % 1 == 0 and dt_utc.minute == 5 and dt_utc.second == 0:
+        
         if dt_utc.minute % 10 == 5 and dt_utc.second == 0:
             check_temp_file
             print("..........SCAN DATA GAGAL KIRIM..........")
@@ -185,12 +186,15 @@ try:
                     data_gagal = str(get_first_line(filenametemp)).replace("['","").replace("']","")
                     base_url1 = url + data_gagal
                     print(base_url1)
-                    result = koneksi(base_url1)
-                    if result is True:
-                        print("...........PENGIRIMAN ULANG BERHASIL..........")
-                        delete_first_line_in_csv(filenametemp)
-                    else:
-                        print("..........PENGIRIMAN ULANG GAGAL..........")
+                    try :
+                        result = koneksi(base_url1)
+                        if result is True:
+                            print("...........PENGIRIMAN ULANG BERHASIL..........")
+                            delete_first_line_in_csv(filenametemp)
+                        else:
+                            print("..........PENGIRIMAN ULANG GAGAL..........")
+                    except Exception as e:
+                        print("SYSTEM ERROR : ", e)
                 else:
                     print("..........GAGAL AMBIL DATA..........")
             else:

@@ -177,7 +177,7 @@ try:
         if dt_utc.minute % 10 == 5 and dt_utc.second == 0:
             check_temp_file
             print("..........SCAN DATA GAGAL KIRIM..........")
-            if check_temp_file:
+            if check_temp_file(filenametemp):
                 print("..........DATA DITEMUKAN..........")
                 ping_server
                 if ping_server:

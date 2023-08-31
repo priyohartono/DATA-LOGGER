@@ -5,6 +5,7 @@ import subprocess
 import time
 import csv
 import ping3
+import pandas as pd
 
 # Get ID Stations
 id = "ARGSMD"
@@ -58,9 +59,9 @@ def ping_server(host):
 ping_server(host)
 
 if ping_server(host) == True:
-    print("Ping Sukses")
+    print("..........BERHASIL PING SERVER..........")
 else:
-    print("Ping Gagal")
+    print("..........GAGAL PING SERVER..........")
 
 # Pengiriman ke HTTP SERVER
 def koneksi(url):
@@ -87,8 +88,14 @@ def get_first_line(filenametemp):
         reader = csv.reader(file)
         first_line = next(reader)
         return first_line
-        #print(first_line)
- 
+
+# Hapus data kirim ulang
+def delete_temp(filenametemp):
+    df = pd.read_csv(filenametemp)
+    line_to_delete = [0]
+    df = df.drop(line_to_delete)
+    df.to_csv(filenametemp , index = False)
+
 #Fungsi Utama
 try:
     while True: 
@@ -162,21 +169,26 @@ try:
         #if dt_utc.hour % 1 == 0 and dt_utc.minute == 5 and dt_utc.second == 0:
         if dt_utc.minute % 10 == 5 and dt_utc.second == 0:
             check_temp_file
-            print("SCAN DATA GAGAL KIRIM")
+            print("..........SCAN DATA GAGAL KIRIM..........")
             if check_temp_file:
-                print("DATA DITEMUKAN")
+                print("..........DATA DITEMUKAN..........")
                 ping_server
                 if ping_server:
-                    print("AMBIL DATA GAGAL KIRIM")
+                    print("..........AMBIL DATA GAGAL KIRIM..........")
                     get_first_line(filenametemp)
                     data_gagal = str(get_first_line(filenametemp)).replace("['","").replace("']","")
                     base_url1 = url + data_gagal
                     print(base_url1)
                     result = koneksi(base_url1)
+                    if result is True:
+                        print("...........PENGIRIMAN ULANG BERHASIL..........")
+                        delete_temp()
+                    else:
+                        print("..........PENGIRIMAN ULANG GAGAL..........")
                 else:
-                    print("GAGAL AMBIL DATA")
+                    print("..........GAGAL AMBIL DATA..........")
             else:
-                print("DATA TIDAK DITEMUKAN")
+                print("..........DATA TIDAK DITEMUKAN..........")
         time.sleep(1)
 
 except Exception as e:

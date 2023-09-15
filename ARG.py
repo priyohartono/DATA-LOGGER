@@ -168,10 +168,11 @@ try:
                 writer.writerow([data])
 
         # Data 1 menit
-        if dt_utc.second == 0:
+        #if dt_utc.second == 0:
+        if dt_utc.minute % 1 == 0 and dt_utc.second == 0:
             print("Data 1 menit:", data)
             write_to_csv1(data)
-            
+
             client.username_pw_set(username,password)
             client.connect(broker_ip,broker_port)
             client.publish(topic,message)

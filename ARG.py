@@ -10,6 +10,17 @@ import paho.mqtt.client as mqtt
 # Get ID Stations
 id = "ARGSMD"
 
+broker_ip = "202.90.198.159"
+broker_port = 1883
+username = "bmkg_aws"
+password = "bmkg_aws123"
+topic = "device/KalTim/arg/smd"
+
+client = mqtt.Client()
+
+client.username_pw_set(username,password)
+client.connect(broker_ip,broker_port)
+
 # Counter
 bucket = Button(17)  # GPIO pin connected to the tipping bucket rain gauge
 tip_count = 0
@@ -96,6 +107,17 @@ def delete_first_line_in_csv(filenametemp):
     with open(filenametemp, 'w') as file:
         file.writelines(lines[1:])  # Write all lines except the first one
 
+#MQTT
+def send_MQTT(message):
+    try:
+        client.connect(broker_ip, broker_port)
+        while True:
+            client.publish(topic, message)
+            print("")
+    except Exception as e:
+        print("Error MQTT", str(e))
+
+
 #Fungsi Utama
 try:
     while True: 
@@ -123,16 +145,8 @@ try:
         #base_url1 = url + get_first_line(filenametemp)
 
         #MQTT
-        broker_ip = "202.90.198.159"
-        broker_port = 1883
-        username = "bmkg_aws"
-        password = "bmkg_aws123"
-
-        topic = "device/KalTim/arg/smd"
 
         message = data
-
-        client = mqtt.Client()
         
         # Fungsi CSV 1 menit
         def write_to_csv1(data):
@@ -157,17 +171,15 @@ try:
         #if dt_utc.minute % 1 == 0 and dt_utc.second == 0:
             print("Data 1 menit:", data)
             write_to_csv1(data)
-
-            client.username_pw_set(username,password)
-            client.connect(broker_ip,broker_port)
+            send_MQTT(data)
             #client.publish(topic,message)
             #print("MQTT sukses")
 
             #time.sleep(1)
 
     # Publish the data
-            client.publish(topic, message)
-            print("Data published to MQTT broker.")
+            #client.publish(topic, message)
+            #print("Data published to MQTT broker.")
 
     # Wait for one minute
             time.sleep(1)

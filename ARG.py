@@ -11,7 +11,7 @@ id = "ARGSMD"
 
 # Counter
 bucket = Button(17)  # GPIO pin connected to the tipping bucket rain gauge
-tip_count = tip_count
+tip_count = 0
 
 def count_tips():
     global tip_count

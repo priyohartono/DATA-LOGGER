@@ -153,8 +153,8 @@ try:
                 writer.writerow([data])
 
         # Data 1 menit
-        #if dt_utc.second == 0:
-        if dt_utc.minute % 1 == 0 and dt_utc.second == 0:
+        if dt_utc.second == 0:
+        #if dt_utc.minute % 1 == 0 and dt_utc.second == 0:
             print("Data 1 menit:", data)
             write_to_csv1(data)
 
@@ -170,7 +170,7 @@ try:
             print("Data published to MQTT broker.")
 
     # Wait for one minute
-            time.sleep(60)
+            time.sleep(1)
 
 
         # Data 10 menit

@@ -143,11 +143,6 @@ try:
         client.disconnect()
 
         print("MQTT sukses")
-
-
-
-
-
         
         # Fungsi CSV 1 menit
         def write_to_csv1(data):
@@ -175,11 +170,18 @@ try:
 
             client.username_pw_set(username,password)
             client.connect(broker_ip,broker_port)
-            client.publish(topic,message)
-            client.disconnect()
-            print("MQTT sukses")
+            #client.publish(topic,message)
+            #print("MQTT sukses")
 
-            time.sleep(1)
+            #time.sleep(1)
+
+    # Publish the data
+            client.publish(topic, message)
+            print("Data published to MQTT broker.")
+
+    # Wait for one minute
+            time.sleep(60)
+
 
         # Data 10 menit
         if dt_utc.minute % 10 == 0 and dt_utc.second == 0:

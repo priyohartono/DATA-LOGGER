@@ -19,7 +19,7 @@ def count_tips():
     tip_count += 1
 
 bucket.when_pressed = count_tips
-print(tip_count)
+#print(tip_count)
 
 # CSV log file
 filename1 = 'data1menit.csv'
@@ -133,16 +133,6 @@ try:
         message = data
 
         client = mqtt.Client()
-
-        client.username_pw_set(username,password)
-
-        client.connect(broker_ip,broker_port)
-
-        client.publish(topic,message)
-
-        client.disconnect()
-
-        print("MQTT sukses")
         
         # Fungsi CSV 1 menit
         def write_to_csv1(data):

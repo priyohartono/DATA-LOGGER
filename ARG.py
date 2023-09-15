@@ -5,6 +5,7 @@ import subprocess
 import time
 import csv
 import ping3
+import paho.mqtt.client as mqtt
 
 # Get ID Stations
 id = "ARGSMD"
@@ -120,6 +121,33 @@ try:
         # Pengumpulan string data ke URL
         base_url = url + data
         #base_url1 = url + get_first_line(filenametemp)
+
+        #MQTT
+        broker_ip = "202.90.198.159"
+        broker_port = 1883
+        username = "bmkg_aws"
+        password = "bmkg_aws123"
+
+        topic = "device/KalTim/arg/smd"
+
+        message = data
+
+        client = mqtt.Client()
+
+        client.username_pw_set(username,password)
+
+        client.connect(broker_ip,broker_port)
+
+        client.publish(topic,message)
+
+        client.disconnect()
+
+        print("MQTT sukses")
+
+
+
+
+
         
         # Fungsi CSV 1 menit
         def write_to_csv1(data):
@@ -143,6 +171,13 @@ try:
         if dt_utc.second == 0:
             print("Data 1 menit:", data)
             write_to_csv1(data)
+            
+            client.username_pw_set(username,password)
+            client.connect(broker_ip,broker_port)
+            client.publish(topic,message)
+            client.disconnect()
+            print("MQTT sukses")
+
             time.sleep(1)
 
         # Data 10 menit

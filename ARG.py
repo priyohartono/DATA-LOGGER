@@ -13,6 +13,11 @@ time.sleep(2)
 # Get ID Stations
 id = "ARGSMD"
 
+# CSV log file
+filename1 = 'data1menit.csv'
+filename10 = 'data10menit.csv'
+filenametemp = 'temp.csv'
+
 #MQTT
 broker_ip = "202.90.198.159"
 broker_port = 1883
@@ -31,10 +36,44 @@ def count_tips():
 bucket.when_pressed = count_tips
 #print(tip_count)
 
-# CSV log file
-filename1 = 'data1menit.csv'
-filename10 = 'data10menit.csv'
-filenametemp = 'temp.csv'
+date_utc = datetime.now(timezone.utc)
+date = date_utc.strftime("%d%m%Y")
+
+# Ambil baris pertama data 1 menit
+def get_line_1(filename1):
+    try:
+        with open(filename1, 'r') as file:
+            reader = csv.reader(file)
+            first_line = next(reader)
+            return first_line
+    except FileNotFoundError:
+        return None
+    except StopIteration:
+        return None
+
+# Get last tip count
+last_data1 = get_line_1(filename1)
+
+if last_data1:
+    last_data = str(last_data1).replace("['", "").replace("']", "")
+    last_data = last_data.split(";")
+
+    last_date = str(last_data[1])
+    last_date = last_date[:8]
+
+    try:
+        last_tip = float(last_data[2]) / 0.2
+        last_tip = int(last_tip)
+        
+        if last_date == date:
+            tip_count = last_tip
+        else:
+            tip_count = 0
+
+    except IndexError:
+        tip_count = 0
+else:
+    tip_count = 0
 
 # Reset counter
 def reset_tip_count():
@@ -107,18 +146,6 @@ def delete_first_line_in_csv(filenametemp):
     with open(filenametemp, 'w') as file:
         file.writelines(lines[1:])  # Write all lines except the first one
 
-# Ambil baris pertama data 1 menit
-def get_line_1(filename1):
-    try:
-        with open(filename1, 'r') as file:
-            reader = csv.reader(file)
-            first_line = next(reader)
-            return first_line
-    except FileNotFoundError:
-        return None
-    except StopIteration:
-        return None
-
 #MQTT
 def send_MQTT(message):
     try:
@@ -138,31 +165,6 @@ try:
         
         # Convert to a string
         date_string = dt_utc.strftime("%d%m%Y%H%M%S")
-        date = dt_utc.strftime("%d%m%Y")
-
-        # Get last tip count
-        last_data1 = get_line_1(filename1)
-
-        if last_data1:
-            last_data = str(last_data1).replace("['", "").replace("']", "")
-            last_data = last_data.split(";")
-
-            last_date = str(last_data[1])
-            last_date = last_date[:8]
-
-            try:
-                last_tip = float(last_data[2]) / 0.2
-                last_tip = int(RR)
-        
-                if last_date == date:
-                    tip_count = last_tip
-                else:
-                    tip_count = 0
-
-            except IndexError:
-                tip_count = 0
-        else:
-            tip_count = 0
 
         # Convert tip_count to rainfall measurement using the specifications of your rain gauge
         RR = tip_count * 0.2

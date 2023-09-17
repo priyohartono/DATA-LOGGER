@@ -92,7 +92,7 @@ def check_temp_file(filenametemp):
     return has_rows
 
 # Ambil baris pertama pada data gagal kirim
-def get_first_line(filenametemp):
+def get_line_temp(filenametemp):
     with open(filenametemp, 'r') as file:
         # Create a CSV writer object
         reader = csv.reader(file)
@@ -108,7 +108,7 @@ def delete_first_line_in_csv(filenametemp):
         file.writelines(lines[1:])  # Write all lines except the first one
 
 # Ambil baris pertama data 1 menit
-def get_first_line(filename1):
+def get_line_1(filename1):
     try:
         with open(filename1, 'r') as file:
             reader = csv.reader(file)
@@ -141,7 +141,7 @@ try:
         date = dt_utc.strftime("%d%m%Y")
 
         # Get last tip count
-        last_data1 = get_first_line(filename1)
+        last_data1 = get_line_1(filename1)
 
         if last_data1:
             last_data = str(last_data1).replace("['", "").replace("']", "")
@@ -170,7 +170,7 @@ try:
 
         if count_tips():
             rain = str(RR)
-            print (RR)
+            print (rain)
         #print (RR)
 
         # SUHU
@@ -238,8 +238,8 @@ try:
                 ping_server
                 if ping_server:
                     print("..........AMBIL DATA GAGAL KIRIM..........")
-                    get_first_line(filenametemp)
-                    data_gagal = str(get_first_line(filenametemp)).replace("['","").replace("']","")
+                    get_line_temp(filenametemp)
+                    data_gagal = str(get_line_temp(filenametemp)).replace("['","").replace("']","")
                     base_url1 = url + data_gagal
                     print(base_url1)
                     try :

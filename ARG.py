@@ -7,6 +7,8 @@ import csv
 import ping3
 import paho.mqtt.client as mqtt
 
+print("..........STARTING ARG.........")
+
 # Get ID Stations
 id = "ARGSMD"
 
@@ -37,7 +39,7 @@ filenametemp = 'temp.csv'
 def reset_tip_count():
     global tip_count
     tip_count = 0
-    print("Resetting tip count")
+    print("Resetting RR")
 
 # URL
 url = "http://202.90.198.212/logger/write.php?dat="
@@ -96,12 +98,25 @@ def get_first_line(filenametemp):
         first_line = next(reader)
         return first_line
 
+# Hapus data berhasil kirim ulang
 def delete_first_line_in_csv(filenametemp):
     with open(filenametemp, 'r') as file:
         lines = file.readlines()  # Read all lines into a list
 
     with open(filenametemp, 'w') as file:
         file.writelines(lines[1:])  # Write all lines except the first one
+
+# Ambil baris pertama data 1 menit
+def get_first_line(filename1):
+    try:
+        with open(filename1, 'r') as file:
+            reader = csv.reader(file)
+            first_line = next(reader)
+            return first_line
+    except FileNotFoundError:
+        return None
+    except StopIteration:
+        return None
 
 #MQTT
 def send_MQTT(message):
@@ -122,26 +137,47 @@ try:
         
         # Convert to a string
         date_string = dt_utc.strftime("%d%m%Y%H%M%S")
-        
-        # Convert tip_count to rainfall measurement using the specifications of your rain gauge
-        rainfall = tip_count * 0.2
-        rainfall = format(rainfall, ".1f")
+        date = dt_utc.strftime("%d%m%Y")
 
-        # Get RR
-        RR = rainfall
+        # Get last tip count
+        last_data1 = get_first_line(filename1)
+
+        if last_data1:
+            last_data = str(last_data1).replace("['", "").replace("']", "")
+            last_data = last_data.split(";")
+
+            last_date = str(last_data[1])
+            last_date = last_date[:8]
+
+            try:
+                last_tip = float(last_data[2]) / 0.2
+                last_tip = int(RR)
+        
+                if last_date == date:
+                    tip_count = last_tip
+                else:
+                    tip_count = 0
+
+            except IndexError:
+                tip_count = 0
+        else:
+            tip_count = 0
+
+        # Convert tip_count to rainfall measurement using the specifications of your rain gauge
+        RR = tip_count * 0.2
+        RR = format(RR, ".1f")
+        print (RR)
 
         # SUHU
         cpu_temp = str(get_cpu_temperature())
         
         # Pengumpulan data ke string
-        data = id+";"+date_string+";"+RR+";"+cpu_temp+";0.0"
+        data = id+";"+date_string+";"+RR+";"+cpu_temp+""
 
         # Pengumpulan string data ke URL
         base_url = url + data
-        #base_url1 = url + get_first_line(filenametemp)
 
-        #MQTT
-
+        # Message MQTT
         message = data
         
         # Fungsi CSV 1 menit
@@ -176,12 +212,11 @@ try:
             write_to_csv10(data)
             result = koneksi(base_url)
             if result is True :
-                print("Data terkirim")
+                print("........HTTP SEND.........")
             else :
-                print("Data tidak terkirim")
+                print(".........HTTP NOT SEND.........")
                 # Simpan data gagal kirim ke csv
                 write_to_csvtemp(data)
-            print(koneksi)
             time.sleep(1)
 
         # Reset tip count at midnight (UTC)
@@ -189,9 +224,7 @@ try:
             reset_tip_count()
             time.sleep(1)
 
-        # Pengiriman ulang data gagal kirim
-        #if dt_utc.hour % 1 == 0 and dt_utc.minute == 5 and dt_utc.second == 0:
-        
+        # Pengiriman ulang data gagal kirim       
         if dt_utc.minute % 10 == 5 and dt_utc.second == 0:
             check_temp_file
             print("..........SCAN DATA GAGAL KIRIM..........")

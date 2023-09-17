@@ -109,9 +109,8 @@ def send_MQTT(message):
         client = mqtt.Client()
         client.username_pw_set(username,password)
         client.connect(broker_ip,broker_port)
-        while True:
-            client.publish(topic, message)
-            print("MQTT SEND")
+        client.publish(topic, message)
+        print("MQTT SEND")
     except Exception as e:
         print("Error MQTT", str(e))
 
@@ -169,16 +168,6 @@ try:
             print("Data 1 menit:", data)
             write_to_csv1(data)
             send_MQTT(data)
-            #client.publish(topic,message)
-            #print("MQTT sukses")
-
-            #time.sleep(1)
-
-    # Publish the data
-            #client.publish(topic, message)
-            #print("Data published to MQTT broker.")
-
-    # Wait for one minute
             time.sleep(1)
 
         # Data 10 menit

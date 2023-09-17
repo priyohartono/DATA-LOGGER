@@ -170,11 +170,6 @@ try:
         RR = tip_count * 0.2
         RR = format(RR, ".1f")
 
-        if count_tips():
-            rain = str(RR)
-            print (rain)
-        #print (RR)
-
         # SUHU
         cpu_temp = str(get_cpu_temperature())
         

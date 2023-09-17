@@ -10,16 +10,12 @@ import paho.mqtt.client as mqtt
 # Get ID Stations
 id = "ARGSMD"
 
+#MQTT
 broker_ip = "202.90.198.159"
 broker_port = 1883
 username = "bmkg_aws"
 password = "bmkg_aws123"
 topic = "device/KalTim/arg/smd"
-
-client = mqtt.Client()
-
-client.username_pw_set(username,password)
-client.connect(broker_ip,broker_port)
 
 # Counter
 bucket = Button(17)  # GPIO pin connected to the tipping bucket rain gauge
@@ -110,13 +106,14 @@ def delete_first_line_in_csv(filenametemp):
 #MQTT
 def send_MQTT(message):
     try:
-        client.connect(broker_ip, broker_port)
+        client = mqtt.Client()
+        client.username_pw_set(username,password)
+        client.connect(broker_ip,broker_port)
         while True:
             client.publish(topic, message)
-            print("")
+            print("MQTT SEND")
     except Exception as e:
         print("Error MQTT", str(e))
-
 
 #Fungsi Utama
 try:
@@ -183,7 +180,6 @@ try:
 
     # Wait for one minute
             time.sleep(1)
-
 
         # Data 10 menit
         if dt_utc.minute % 10 == 0 and dt_utc.second == 0:

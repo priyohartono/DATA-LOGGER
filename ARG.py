@@ -8,6 +8,7 @@ import ping3
 import paho.mqtt.client as mqtt
 
 print("..........STARTING ARG.........")
+time.sleep(2)
 
 # Get ID Stations
 id = "ARGSMD"
@@ -166,7 +167,10 @@ try:
         # Convert tip_count to rainfall measurement using the specifications of your rain gauge
         RR = tip_count * 0.2
         RR = format(RR, ".1f")
-        print (RR)
+        
+        if count_tips():
+            print (RR)
+        #print (RR)
 
         # SUHU
         cpu_temp = str(get_cpu_temperature())

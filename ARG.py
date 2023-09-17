@@ -167,8 +167,9 @@ try:
         # Convert tip_count to rainfall measurement using the specifications of your rain gauge
         RR = tip_count * 0.2
         RR = format(RR, ".1f")
-        
+
         if count_tips():
+            rain = str(RR)
             print (RR)
         #print (RR)
 

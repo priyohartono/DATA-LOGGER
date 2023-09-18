@@ -39,13 +39,15 @@ bucket.when_pressed = count_tips
 date_utc = datetime.now(timezone.utc)
 date = date_utc.strftime("%d%m%Y")
 
-# Ambil baris pertama data 1 menit
+# Ambil baris terakhir data 1 menit
 def get_line_1(filename1):
     try:
         with open(filename1, 'r') as file:
             reader = csv.reader(file)
-            first_line = next(reader)
-            return first_line
+            lines = list(reader)
+            if len (lines) > 0:
+                last_line = lines[-1]
+                return last_line
     except FileNotFoundError:
         return None
     except StopIteration:

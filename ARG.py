@@ -36,7 +36,6 @@ def count_tips():
 
 bucket.when_pressed = count_tips
 
-
 date_utc = datetime.now(timezone.utc)
 date = date_utc.strftime("%d%m%Y")
 
@@ -224,7 +223,7 @@ try:
             # Write the updated data to the CSV file
             add_to_lastvalue(filenamevalue, data)
 
-        if tip_count == +1 :
+        if count_tips() == 1 :
             new_value = data
             append_to_csv(filenamevalue, new_value)
 

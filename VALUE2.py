@@ -32,6 +32,8 @@ if first_line_data:
 
     try:
         RR = float(last_data[2]) / 0.2
+        RR = round(RR)
+        print(RR)
         RR = int(RR)
         print(RR)
 

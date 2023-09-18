@@ -67,6 +67,7 @@ if last_data1:
 
     try:
         last_tip = float(last_data[2]) / 0.2
+        last_tip = round(last_tip)
         last_tip = int(last_tip)
         print(last_tip)
 

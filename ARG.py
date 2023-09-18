@@ -17,6 +17,7 @@ id = "ARGSMD"
 filename1 = 'data1menit.csv'
 filename10 = 'data10menit.csv'
 filenametemp = 'temp.csv'
+filenamevalue = 'lastvalue.csv'
 
 #MQTT
 broker_ip = "202.90.198.159"
@@ -34,15 +35,15 @@ def count_tips():
     tip_count += 1
 
 bucket.when_pressed = count_tips
-#print(tip_count)
+
 
 date_utc = datetime.now(timezone.utc)
 date = date_utc.strftime("%d%m%Y")
 
 # Ambil baris terakhir data 1 menit
-def get_line_1(filename1):
+def get_last_value(filenamevalue):
     try:
-        with open(filename1, 'r') as file:
+        with open(filenamevalue, 'r') as file:
             reader = csv.reader(file)
             lines = list(reader)
             if len (lines) > 0:
@@ -54,7 +55,7 @@ def get_line_1(filename1):
         return None
 
 # Get last tip count
-last_data1 = get_line_1(filename1)
+last_data1 = get_last_value(filenamevalue)
 print(last_data1)
 
 if last_data1:
@@ -148,7 +149,6 @@ def get_line_temp(filenametemp):
 def delete_first_line_in_csv(filenametemp):
     with open(filenametemp, 'r') as file:
         lines = file.readlines()  # Read all lines into a list
-
     with open(filenametemp, 'w') as file:
         file.writelines(lines[1:])  # Write all lines except the first one
 
@@ -205,6 +205,29 @@ try:
             with open(filenametemp, 'a', newline='') as csvfile:
                 writer = csv.writer(csvfile)
                 writer.writerow([data])
+
+        # Tambah data ke last value
+        def add_to_lastvalue(filenamevalue, data):
+            with open(filenamevalue, 'w', newline='') as csvfile:
+                writer = csv.writer(csvfile)
+                for row in data:
+                    writer.writerow(row)
+
+        # Limit 10 line
+        def append_to_csv(filenamevalue, new_value):
+            data = get_last_value(filenamevalue)
+            # Append the new line
+            data.append(new_value)
+            # Check line count and remove the first line if needed
+            if len(data) > 10:
+                data.pop(0)
+            # Write the updated data to the CSV file
+            add_to_lastvalue(filenamevalue, data)
+
+        if count_tips == True :
+            new_value = data
+            append_to_csv(filenamevalue, new_value)
+
 
         # Data 1 menit
         if dt_utc.second == 0:

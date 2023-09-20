@@ -54,21 +54,17 @@ def get_line_1(filename1):
 
 # Get last tip count
 last_data1 = get_line_1(filename1)
-print(last_data1)
 
 if last_data1:
     last_data = str(last_data1).replace("['", "").replace("']", "")
     last_data = last_data.split(";")
-    print(last_data)
     last_date = str(last_data[1])
     last_date = last_date[:8]
-    print(last_date)
 
     try:
         last_tip = float(last_data[2]) / 0.2
         last_tip = round(last_tip)
         last_tip = int(last_tip)
-        print(last_tip)
 
         if last_date == date:
             tip_count = last_tip

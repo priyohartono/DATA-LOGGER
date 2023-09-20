@@ -39,7 +39,7 @@ bucket.when_pressed = count_tips
 date_utc = datetime.now(timezone.utc)
 date = date_utc.strftime("%d%m%Y")
 
-# Ambil baris terakhir data 1 menit
+# Ambil baris terakhir data last value
 def get_last_value(filenamevalue):
     try:
         with open(filenamevalue, 'r') as file:
@@ -223,9 +223,11 @@ try:
             # Write the updated data to the CSV file
             add_to_lastvalue(filenamevalue, data)
 
-        new_value = data
-        append_to_csv(filenamevalue, new_value)
-
+        val = count_tips()
+        if val :
+            new_value = data
+            append_to_csv()
+ 
         # Data 1 menit
         if dt_utc.second == 0:
         #if dt_utc.minute % 1 == 0 and dt_utc.second == 0:

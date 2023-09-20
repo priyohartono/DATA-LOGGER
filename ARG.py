@@ -223,8 +223,7 @@ try:
             # Write the updated data to the CSV file
             add_to_lastvalue(filenamevalue, data)
 
-        val = count_tips()
-        if val :
+        if count_tips() :
             new_value = data
             append_to_csv()
  

@@ -38,7 +38,7 @@ bucket.when_pressed = count_tips
 date_utc = datetime.now(timezone.utc)
 date = date_utc.strftime("%d%m%Y")
 
-# Ambil baris terakhir data last value
+# Ambil baris terakhir data 1 menit
 def get_line_1(filename1):
     try:
         with open(filename1, 'r') as file:
@@ -166,6 +166,11 @@ try:
         # Convert to a string
         date_string = dt_utc.strftime("%d%m%Y%H%M%S")
 
+        # Reset tip count at midnight (UTC)
+        if dt_utc.hour == 0 and dt_utc.minute == 0 and dt_utc.second == 5:
+            reset_tip_count()
+            time.sleep(1)
+
         # Convert tip_count to rainfall measurement using the specifications of your rain gauge
         RR = tip_count * 0.2
         RR = format(RR, ".1f")
@@ -219,11 +224,6 @@ try:
                 print(".........HTTP NOT SEND.........")
                 # Simpan data gagal kirim ke csv
                 write_to_csvtemp(data)
-            time.sleep(1)
-
-        # Reset tip count at midnight (UTC)
-        if dt_utc.hour == 0 and dt_utc.minute == 0 and dt_utc.second == 5:
-            reset_tip_count()
             time.sleep(1)
 
         # Pengiriman ulang data gagal kirim       

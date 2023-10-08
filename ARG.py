@@ -147,7 +147,7 @@ def delete_first_line_in_csv(filenametemp):
         file.writelines(lines[1:])  # Write all lines except the first one
 
 #MQTT
-def send_MQTT():
+def send_MQTT(message):
     try:
         client = mqtt.Client()
         client.username_pw_set(username,password)

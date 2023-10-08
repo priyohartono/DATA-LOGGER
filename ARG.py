@@ -147,7 +147,7 @@ def delete_first_line_in_csv(filenametemp):
         file.writelines(lines[1:])  # Write all lines except the first one
 
 #MQTT
-def send_MQTT(message):
+def send_MQTT():
     try:
         client = mqtt.Client()
         client.username_pw_set(username,password)
@@ -166,10 +166,6 @@ try:
         # Convert to a string
         date_string = dt_utc.strftime("%d%m%Y%H%M%S")
 
-        # Reset tip count at midnight (UTC)
-        if dt_utc.hour == 0 and dt_utc.minute == 0 and dt_utc.second == 5:
-            reset_tip_count()
-            time.sleep(1)
 
         # Convert tip_count to rainfall measurement using the specifications of your rain gauge
         RR = tip_count * 0.2
@@ -185,7 +181,7 @@ try:
         base_url = url + data
 
         # Message MQTT
-        message = data
+        #message = data
         
         # Fungsi CSV 1 menit
         def write_to_csv1(data):
@@ -198,6 +194,7 @@ try:
             with open(filename10, 'a', newline='') as csvfile:
                 writer = csv.writer(csvfile)
                 writer.writerow([data])
+
 
         # Fungsi CSV data gagal kirim
         def write_to_csvtemp(data):
@@ -224,6 +221,11 @@ try:
                 print(".........HTTP NOT SEND.........")
                 # Simpan data gagal kirim ke csv
                 write_to_csvtemp(data)
+            time.sleep(1)
+
+        # Reset tip count at midnight (UTC)
+        if dt_utc.hour == 0 and dt_utc.minute == 0 and dt_utc.second == 5:
+            reset_tip_count()
             time.sleep(1)
 
         # Pengiriman ulang data gagal kirim       

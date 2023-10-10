@@ -192,7 +192,7 @@ try:
             "log_temp": cpu_temp
         }
 
-        message = json.dump(message)
+        message = json.dumps(message)
 
         # Fungsi CSV 1 menit
         def write_to_csv1(data):

@@ -6,12 +6,14 @@ import time
 import csv
 import ping3
 import paho.mqtt.client as mqtt
+import json
 
 print("..........STARTING ARG.........")
 time.sleep(2)
 
 # Get ID Stations
-id = "ARGSMD"
+id = "96607"
+site = "ARG REK SAMARINDA"
 
 # CSV log file
 filename1 = 'data1menit.csv'
@@ -24,6 +26,10 @@ broker_port = 1883
 username = "bmkg_aws"
 password = "bmkg_aws123"
 topic = "device/KalTim/arg/smd"
+
+# HTTP
+url = "http://202.90.198.212/logger/write.php?dat="
+host = "202.90.198.212"
 
 # Counter
 bucket = Button(17)  # GPIO pin connected to the tipping bucket rain gauge
@@ -60,7 +66,6 @@ if last_data1:
     last_data = last_data.split(";")
     last_date = str(last_data[1])
     last_date = last_date[:8]
-
     try:
         last_tip = float(last_data[2]) / 0.2
         last_tip = round(last_tip)
@@ -70,7 +75,6 @@ if last_data1:
             tip_count = last_tip
         else:
             tip_count = 0
-
     except IndexError:
         tip_count = 0
 else:
@@ -81,10 +85,6 @@ def reset_tip_count():
     global tip_count
     tip_count = 0
     print("Resetting RR")
-
-# URL
-url = "http://202.90.198.212/logger/write.php?dat="
-host = "202.90.198.212"
 
 #Suhu CPU
 def get_cpu_temperature():
@@ -166,7 +166,6 @@ try:
         # Convert to a string
         date_string = dt_utc.strftime("%d%m%Y%H%M%S")
 
-
         # Convert tip_count to rainfall measurement using the specifications of your rain gauge
         RR = tip_count * 0.2
         RR = format(RR, ".1f")
@@ -181,8 +180,20 @@ try:
         base_url = url + data
 
         # Message MQTT
-        #message = data
+        tanggal = dt_utc.strftime("%Y-%m-%d")
+        jam = dt_utc.strftime("%H:%M:%S")
         
+        message = {
+            "date": tanggal,
+            "time": jam,
+            "id": id,
+            "site": site,
+            "rr": RR,
+            "log_temp": cpu_temp
+        }
+
+        message = json.dump(message)
+
         # Fungsi CSV 1 menit
         def write_to_csv1(data):
             with open(filename1, 'a', newline='') as csvfile:
@@ -195,7 +206,6 @@ try:
                 writer = csv.writer(csvfile)
                 writer.writerow([data])
 
-
         # Fungsi CSV data gagal kirim
         def write_to_csvtemp(data):
             with open(filenametemp, 'a', newline='') as csvfile:
@@ -207,7 +217,7 @@ try:
         #if dt_utc.minute % 1 == 0 and dt_utc.second == 0:
             print("Data 1 menit:", data)
             write_to_csv1(data)
-            send_MQTT(data)
+            send_MQTT(message)
             time.sleep(1)
 
         # Data 10 menit

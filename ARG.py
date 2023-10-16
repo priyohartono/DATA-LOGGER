@@ -170,10 +170,10 @@ try:
         RR = format(RR, ".1f")
 
         # Reset tip count at midnight (UTC)
-        if dt_utc.hour == 0 and dt_utc.minute == 0 and dt_utc.second == 5:
+        if dt_utc.hour == 5 and dt_utc.minute == 10 and dt_utc.second == 5:
             reset_tip_count()
             time.sleep(1)
-            
+
         # SUHU
         cpu_temp = str(get_cpu_temperature())
         
@@ -233,7 +233,6 @@ try:
                 # Simpan data gagal kirim ke csv
                 write_to_csvtemp(data)
             time.sleep(1)
-
 
         # Pengiriman ulang data gagal kirim       
         if dt_utc.minute % 10 == 5 and dt_utc.second == 0:

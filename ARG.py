@@ -166,13 +166,13 @@ try:
         date_string = dt_utc.strftime("%d%m%Y%H%M%S")
 
         # Convert tip_count to rainfall measurement using the specifications of your rain gauge
-        RR = tip_count * 0.2
-        RR = format(RR, ".1f")
+        #RR = tip_count * 0.2
+        #RR = format(RR, ".1f")
+        RR = format(tip_count * 0.2, ".1f")
 
         # Reset tip count at midnight (UTC)
-        if dt_utc.hour == 5 and dt_utc.minute == 10 and dt_utc.second == 5:
+        if dt_utc.hour == 6 and dt_utc.minute == 0 and dt_utc.second == 5:
             reset_tip_count()
-            time.sleep(1)
 
         # SUHU
         cpu_temp = str(get_cpu_temperature())
@@ -181,7 +181,7 @@ try:
         data = id+";"+date_string+";"+RR+";"+cpu_temp+""
 
         # Pengumpulan string data ke URL
-        base_url = url + data
+        #base_url = url + data
 
         # Message MQTT
         tanggal = dt_utc.strftime("%Y-%m-%d")
@@ -225,6 +225,7 @@ try:
         if dt_utc.minute % 10 == 0 and dt_utc.second == 0:
             print("Data 10 menit:", data)
             write_to_csv10(data)
+            base_url = url + data
             result = koneksi(base_url)
             if result is True :
                 print("........HTTP SEND.........")

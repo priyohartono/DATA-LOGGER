@@ -102,7 +102,6 @@ def ping_server(host):
             return True
         else:
             return False
-        
     except Exception as e:
         print("Error:", e)
 
@@ -170,6 +169,11 @@ try:
         RR = tip_count * 0.2
         RR = format(RR, ".1f")
 
+        # Reset tip count at midnight (UTC)
+        if dt_utc.hour == 0 and dt_utc.minute == 0 and dt_utc.second == 5:
+            reset_tip_count()
+            time.sleep(1)
+            
         # SUHU
         cpu_temp = str(get_cpu_temperature())
         
@@ -182,7 +186,6 @@ try:
         # Message MQTT
         tanggal = dt_utc.strftime("%Y-%m-%d")
         jam = dt_utc.strftime("%H:%M:%S")
-        
         message = {
             "date": tanggal,
             "time": jam,
@@ -191,7 +194,6 @@ try:
             "rr": RR,
             "log_temp": cpu_temp
         }
-
         message = json.dumps(message)
 
         # Fungsi CSV 1 menit
@@ -214,7 +216,6 @@ try:
  
         # Data 1 menit
         if dt_utc.second == 0:
-        #if dt_utc.minute % 1 == 0 and dt_utc.second == 0:
             print("Data 1 menit:", data)
             write_to_csv1(data)
             send_MQTT(message)
@@ -233,10 +234,6 @@ try:
                 write_to_csvtemp(data)
             time.sleep(1)
 
-        # Reset tip count at midnight (UTC)
-        if dt_utc.hour == 0 and dt_utc.minute == 0 and dt_utc.second == 5:
-            reset_tip_count()
-            time.sleep(1)
 
         # Pengiriman ulang data gagal kirim       
         if dt_utc.minute % 10 == 5 and dt_utc.second == 0:

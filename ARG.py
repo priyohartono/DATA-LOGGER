@@ -166,8 +166,6 @@ try:
         date_string = dt_utc.strftime("%d%m%Y%H%M%S")
 
         # Convert tip_count to rainfall measurement using the specifications of your rain gauge
-        #RR = tip_count * 0.2
-        #RR = format(RR, ".1f")
         RR = format(tip_count * 0.2, ".1f")
 
         # Reset tip count at midnight (UTC)
@@ -181,7 +179,6 @@ try:
         data = id+";"+date_string+";"+RR+";"+cpu_temp+""
 
         # Pengumpulan string data ke URL
-        #base_url = url + data
 
         # Message MQTT
         tanggal = dt_utc.strftime("%Y-%m-%d")

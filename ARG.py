@@ -178,21 +178,6 @@ try:
         # Pengumpulan data ke string
         data = id+";"+date_string+";"+RR+";"+cpu_temp+""
         print(data)
-        # Pengumpulan string data ke URL
-
-        # Message MQTT
-        tanggal = dt_utc.strftime("%Y-%m-%d")
-        jam = dt_utc.strftime("%H:%M:%S")
-        message = {
-            "date": tanggal,
-            "time": jam,
-            "id": id,
-            "site": site,
-            "rr": RR,
-            "log_temp": cpu_temp
-        }
-        message = json.dumps(message)
-        print(message)
 
         # Fungsi CSV 1 menit
         def write_to_csv1(data):
@@ -214,6 +199,19 @@ try:
  
         # Data 1 menit
         if dt_utc.second == 0:
+            tanggal = dt_utc.strftime("%Y-%m-%d")
+            jam = dt_utc.strftime("%H:%M:%S")
+            message = {
+                "date": tanggal,
+                "time": jam,
+                "id": id,
+                "site": site,
+                "rr": RR,
+                "log_temp": cpu_temp
+            }
+            message = json.dumps(message)
+            print(message)
+
             print("Data 1 menit:", data)
             write_to_csv1(data)
             send_MQTT(message)

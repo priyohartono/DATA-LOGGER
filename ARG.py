@@ -167,9 +167,9 @@ try:
 
         # Convert tip_count to rainfall measurement using the specifications of your rain gauge
         RR = format(tip_count * 0.2, ".1f")
-
+        print(RR)
         # Reset tip count at midnight (UTC)
-        if dt_utc.hour == 6 and dt_utc.minute == 0 and dt_utc.second == 5:
+        if dt_utc.hour == 0 and dt_utc.minute == 0 and dt_utc.second == 5:
             reset_tip_count()
 
         # SUHU
@@ -177,7 +177,7 @@ try:
         
         # Pengumpulan data ke string
         data = id+";"+date_string+";"+RR+";"+cpu_temp+""
-
+        print(data)
         # Pengumpulan string data ke URL
 
         # Message MQTT
@@ -192,6 +192,7 @@ try:
             "log_temp": cpu_temp
         }
         message = json.dumps(message)
+        print(message)
 
         # Fungsi CSV 1 menit
         def write_to_csv1(data):

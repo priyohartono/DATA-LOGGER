@@ -168,6 +168,7 @@ try:
         # Convert tip_count to rainfall measurement using the specifications of your rain gauge
         RR = format(tip_count * 0.2, ".1f")
         print(RR)
+
         # Reset tip count at midnight (UTC)
         if dt_utc.hour == 0 and dt_utc.minute == 0 and dt_utc.second == 5:
             reset_tip_count()
@@ -214,6 +215,7 @@ try:
 
             print("Data 1 menit:", data)
             write_to_csv1(data)
+            time.sleep(1)
             send_MQTT(message)
             time.sleep(1)
 
@@ -222,7 +224,9 @@ try:
             print("Data 10 menit:", data)
             write_to_csv10(data)
             base_url = url + data
+            time.sleep(1)
             result = koneksi(base_url)
+            time.sleep(1)
             if result is True :
                 print("........HTTP SEND.........")
             else :
@@ -245,9 +249,11 @@ try:
                     base_url1 = url + data_gagal
                     print(base_url1)
                     try :
+                        time.sleep(1)
                         result = koneksi(base_url1)
                         if result is True:
                             print("...........PENGIRIMAN ULANG BERHASIL..........")
+                            time.sleep(1)
                             delete_first_line_in_csv(filenametemp)
                         else:
                             print("..........PENGIRIMAN ULANG GAGAL..........")

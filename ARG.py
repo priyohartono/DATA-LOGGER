@@ -54,9 +54,9 @@ def get_line_1(filename1):
                 last_line = lines[-1]
                 return last_line
     except FileNotFoundError:
-        return None
+        print ("File not found")
     except StopIteration:
-        return None
+        print ("File not found")
 
 # Get last tip count
 last_data1 = get_line_1(filename1)
@@ -172,7 +172,7 @@ try:
         # Reset tip count at midnight (UTC)
         if dt_utc.hour == 0 and dt_utc.minute == 0 and dt_utc.second == 5:
             reset_tip_count()
-
+ 
         # SUHU
         cpu_temp = str(get_cpu_temperature())
         
@@ -247,7 +247,6 @@ try:
                     get_line_temp(filenametemp)
                     data_gagal = str(get_line_temp(filenametemp)).replace("['","").replace("']","")
                     base_url1 = url + data_gagal
-                    print(base_url1)
                     try :
                         time.sleep(1)
                         result = koneksi(base_url1)
@@ -257,6 +256,7 @@ try:
                             delete_first_line_in_csv(filenametemp)
                         else:
                             print("..........PENGIRIMAN ULANG GAGAL..........")
+                            write_to_csvtemp(data)
                     except Exception as e:
                         print("SYSTEM ERROR : ", e)
                 else:

@@ -59,7 +59,6 @@ def get_line_1(filename1):
         print ("File not found")
     except StopIteration:
         print ("File not found")
-    return last_line
 
 # Get last tip count
 last_data1 = get_line_1(filename1)

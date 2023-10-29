@@ -53,10 +53,13 @@ def get_line_1(filename1):
             if len (lines) > 0:
                 last_line = lines[-1]
                 return last_line
+    except csv.Error :
+        print ("File not found")
     except FileNotFoundError:
         print ("File not found")
     except StopIteration:
         print ("File not found")
+    return last_line
 
 # Get last tip count
 last_data1 = get_line_1(filename1)
@@ -165,14 +168,14 @@ try:
         # Convert to a string
         date_string = dt_utc.strftime("%d%m%Y%H%M%S")
 
+        # Reset tip count at midnight (UTC)
+        if dt_utc.hour == 0 and dt_utc.minute == 0 and dt_utc.second == 5:
+            reset_tip_count()
+
         # Convert tip_count to rainfall measurement using the specifications of your rain gauge
         RR = format(tip_count * 0.2, ".1f")
         print(RR)
 
-        # Reset tip count at midnight (UTC)
-        if dt_utc.hour == 0 and dt_utc.minute == 0 and dt_utc.second == 5:
-            reset_tip_count()
- 
         # SUHU
         cpu_temp = str(get_cpu_temperature())
         

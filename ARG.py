@@ -167,10 +167,6 @@ try:
         # Convert to a string
         date_string = dt_utc.strftime("%d%m%Y%H%M%S")
 
-        # Reset tip count at midnight (UTC)
-        if dt_utc.hour == 0 and dt_utc.minute == 0 and dt_utc.second == 5:
-            reset_tip_count()
-
         # Convert tip_count to rainfall measurement using the specifications of your rain gauge
         RR = format(tip_count * 0.2, ".1f")
         print(RR)
@@ -236,6 +232,10 @@ try:
                 # Simpan data gagal kirim ke csv
                 write_to_csvtemp(data)
             time.sleep(1)
+
+        # Reset tip count at midnight (UTC)
+        if dt_utc.hour == 0 and dt_utc.minute == 15 and dt_utc.second == 5:
+            reset_tip_count()
 
         # Pengiriman ulang data gagal kirim       
         if dt_utc.minute % 10 == 5 and dt_utc.second == 0:

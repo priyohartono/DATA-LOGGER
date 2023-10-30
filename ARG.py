@@ -197,7 +197,7 @@ try:
                 writer.writerow([data])
  
         # Data 1 menit
-        if dt_utc.minute % 1 == 0 & dt_utc.second == 0:
+        if dt_utc.second == 0:
             tanggal = dt_utc.strftime("%Y-%m-%d")
             jam = dt_utc.strftime("%H:%M:%S")
             message = {

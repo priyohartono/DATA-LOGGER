@@ -197,7 +197,7 @@ try:
                 writer.writerow([data])
  
         # Data 1 menit
-        if dt_utc.second == 0:
+        if dt_utc.minute % 1 == 0 & dt_utc.second == 0:
             tanggal = dt_utc.strftime("%Y-%m-%d")
             jam = dt_utc.strftime("%H:%M:%S")
             message = {
@@ -212,6 +212,7 @@ try:
             print(message)
 
             print("Data 1 menit:", data)
+            time.sleep(1)
             write_to_csv1(data)
             time.sleep(1)
             send_MQTT(message)
@@ -234,7 +235,7 @@ try:
             time.sleep(1)
 
         # Reset tip count at midnight (UTC)
-        if dt_utc.hour == 0 and dt_utc.minute == 15 and dt_utc.second == 5:
+        if dt_utc.hour == 0 and dt_utc.minute == 0 and dt_utc.second == 30:
             reset_tip_count()
 
         # Pengiriman ulang data gagal kirim       

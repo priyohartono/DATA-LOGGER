@@ -53,6 +53,8 @@ def get_line_1(filename1):
             if len (lines) > 0:
                 last_line = lines[-1]
                 return last_line
+    except csv.Error :
+        print ("File not found")
     except FileNotFoundError:
         print ("File not found")
     except StopIteration:
@@ -169,10 +171,6 @@ try:
         RR = format(tip_count * 0.2, ".1f")
         print(RR)
 
-        # Reset tip count at midnight (UTC)
-        if dt_utc.hour == 0 and dt_utc.minute == 0 and dt_utc.second == 5:
-            reset_tip_count()
- 
         # SUHU
         cpu_temp = str(get_cpu_temperature())
         
@@ -214,6 +212,7 @@ try:
             print(message)
 
             print("Data 1 menit:", data)
+            time.sleep(1)
             write_to_csv1(data)
             time.sleep(1)
             send_MQTT(message)
@@ -234,6 +233,10 @@ try:
                 # Simpan data gagal kirim ke csv
                 write_to_csvtemp(data)
             time.sleep(1)
+
+        # Reset tip count at midnight (UTC)
+        if dt_utc.hour == 0 and dt_utc.minute == 0 and dt_utc.second == 30:
+            reset_tip_count()
 
         # Pengiriman ulang data gagal kirim       
         if dt_utc.minute % 10 == 5 and dt_utc.second == 0:

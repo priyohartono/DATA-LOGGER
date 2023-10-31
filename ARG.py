@@ -12,8 +12,8 @@ print("..........STARTING ARG.........")
 time.sleep(2)
 
 # Get ID Stations
-id = "96607"
-site = "ARG REK SAMARINDA"
+id = "150064"
+site = "ARG Sebulu"
 
 # CSV log file
 filename1 = 'data1menit.csv'
@@ -61,7 +61,7 @@ def get_line_1(filename1):
 # Get last tip count
 last_data1 = get_line_1(filename1)
 
-if last_data1:
+if last_data1 == True:
     last_data = str(last_data1).replace("['", "").replace("']", "")
     last_data = last_data.split(";")
     last_date = str(last_data[1])

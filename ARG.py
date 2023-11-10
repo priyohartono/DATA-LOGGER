@@ -259,7 +259,7 @@ try:
                             delete_first_line_in_csv(filenametemp)
                         else:
                             print("..........PENGIRIMAN ULANG GAGAL..........")
-                            write_to_csvtemp(data)
+                            #write_to_csvtemp(data)
                     except Exception as e:
                         print("SYSTEM ERROR : ", e)
                 else:

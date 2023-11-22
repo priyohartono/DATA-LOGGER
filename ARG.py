@@ -12,8 +12,8 @@ print("..........STARTING ARG.........")
 time.sleep(2)
 
 # Get ID Stations
-id = "150064"
-site = "ARG Sebulu"
+id = "96607"
+site = "ARG REK SAMARINDA"
 
 # CSV log file
 filename1 = 'data1menit.csv'
@@ -25,7 +25,7 @@ broker_ip = "202.90.198.159"
 broker_port = 1883
 username = "bmkg_aws"
 password = "bmkg_aws123"
-topic = "device/KalTim/arg/150064"
+topic = "device/KalTim/arg/96607"
 
 # HTTP
 url = "http://202.90.198.212/logger/write.php?dat="

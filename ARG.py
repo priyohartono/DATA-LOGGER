@@ -32,7 +32,7 @@ url = "http://202.90.198.212/logger/write.php?dat="
 host = "202.90.198.212"
 
 # Counter
-bucket = Button(17)  # GPIO pin connected to the tipping bucket rain gauge
+bucket = Button(17)  #GPIO pin connected to the tipping bucket rain gauge
 tip_count = 0
 
 def count_tips():
@@ -176,7 +176,7 @@ try:
         
         # Pengumpulan data ke string
         data = id+";"+date_string+";"+RR+";"+cpu_temp+""
-        print(data)
+        #print(data)
 
         # Fungsi CSV 1 menit
         def write_to_csv1(data):

@@ -169,7 +169,7 @@ try:
 
         # Convert tip_count to rainfall measurement using the specifications of your rain gauge
         RR = format(tip_count * 0.2, ".1f")
-        print(RR)
+        #print(RR)
 
         # SUHU
         cpu_temp = str(get_cpu_temperature())

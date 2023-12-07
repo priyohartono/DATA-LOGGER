@@ -22,7 +22,7 @@ font = ImageFont.load_default()
 message = "This is a running text example for OLED display."
 
 # Calculate text width for scrolling
-text_width, _ = draw.textsize(message, font)
+text_width, _ = draw.textlength(message, font)
 
 # Initialize starting position
 x = width

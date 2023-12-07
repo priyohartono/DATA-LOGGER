@@ -205,10 +205,18 @@ try:
         data = id+";"+date_string+";"+RR+";"+cpu_temp+";"+volt+""
 
         # Display the voltage on the OLED
+        text_width, _ = draw.textsize(data, font)
+        x = width
         draw.rectangle((0, 0, width, height), outline=0, fill=0)
         draw.text((0, 0), f"DATA: {data}", font=font, fill=255)
         disp.image(image)
         disp.show()
+
+        x -= 1
+        if x < -text_width:
+            x = width
+
+        time.sleep(0.05)
 
         # Fungsi CSV 1 menit
         def write_to_csv1(data):

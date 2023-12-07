@@ -33,10 +33,11 @@ try:
     while True:
         # Read the analog voltage
         voltage = chan.voltage
+        volt = voltage * 5
 
         # Display the voltage on the OLED
         draw.rectangle((0, 0, width, height), outline=0, fill=0)
-        draw.text((0, 0), f"Voltage: {voltage:.2f}V", font=font, fill=255)
+        draw.text((0, 0), f"Voltage: {volt:.2f}V", font=font, fill=255)
         disp.image(image)
         disp.show()
 

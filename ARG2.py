@@ -205,7 +205,7 @@ try:
         data = id+";"+date_string+";"+RR+";"+cpu_temp+";"+volt+""
 
         # Display the voltage on the OLED
-        text_width, text_height = draw.textsize(data, font)
+        text_width, text_height = draw.textlength(data, font)
         x = width
         draw.rectangle((0, 0, width, height), outline=0, fill=0)
         draw.text((x, (height - text_height) // 2), data, font=font, fill=255)

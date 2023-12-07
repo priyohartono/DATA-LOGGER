@@ -67,6 +67,7 @@ height = disp.height
 image = Image.new("1", (width, height))
 draw = ImageDraw.Draw(image)
 font = ImageFont.load_default()
+x = width
 
 # Ambil baris terakhir data 1 menit
 def get_line_1(filename1):
@@ -206,7 +207,7 @@ try:
 
         # Display the voltage on the OLED
         text_width, text_height = draw.textlength(data, font)
-        x = width
+        
         draw.rectangle((0, 0, width, height), outline=0, fill=0)
         draw.text((x, (height - text_height) // 2), data, font=font, fill=255)
         disp.image(image)

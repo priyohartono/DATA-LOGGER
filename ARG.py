@@ -8,9 +8,6 @@ import ping3
 import paho.mqtt.client as mqtt
 import json
 
-print("..........STARTING ARG.........")
-time.sleep(2)
-
 # Get ID Stations
 id = "96607"
 site = "ARG REK SAMARINDA"
@@ -30,6 +27,9 @@ topic = "device/KalTim/arg/96607"
 # HTTP
 url = "http://202.90.198.212/logger/write.php?dat="
 host = "202.90.198.212"
+
+print("..........STARTING ARG.........")
+time.sleep(2)
 
 # Counter
 bucket = Button(17)  #GPIO pin connected to the tipping bucket rain gauge

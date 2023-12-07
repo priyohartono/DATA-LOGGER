@@ -18,7 +18,8 @@ try:
     while True:
         # Read the voltage and print it
         voltage = channel.voltage
-        print(f"Voltage: {voltage}V")
+        volt = voltage * 5
+        print(f"Voltage: {volt}V")
         time.sleep(1)
 
 except KeyboardInterrupt:

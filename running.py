@@ -1,45 +1,49 @@
-from luma.core.interface.serial import i2c
-from luma.oled.device import ssd1306
-from PIL import Image, ImageDraw, ImageFont
 import time
+import board
+import busio
+import adafruit_ssd1306
+from PIL import Image, ImageDraw, ImageFont
 
-# Set up the serial interface
-serial = i2c(port=1, address=0x3C)
+# Create the I2C bus
+i2c = busio.I2C(board.SCL, board.SDA)
 
-# Set up the OLED display
-device = ssd1306(serial, rotate=0)
+# Create the SSD1306 OLED class
+disp = adafruit_ssd1306.SSD1306_I2C(128, 32, i2c)
+
+# Clear the display
+disp.fill(0)
+disp.show()
 
 # Create a blank image for drawing
-width = device.width
-height = device.height
+width = disp.width
+height = disp.height
 image = Image.new("1", (width, height))
 draw = ImageDraw.Draw(image)
 
-# Load a font
+# Load a font (choose an appropriate size)
 font = ImageFont.load_default()
 
 # Running text message
-message = "This is a running text example for OLED display."
-
-# Calculate text width for scrolling
-text_width, _ = draw.textlength(message, font)
-
-# Initialize starting position
-x = width
+message = "This is a running text example for OLED display. "
 
 try:
     while True:
-        # Draw the text on the image
+        # Clear the image
         draw.rectangle((0, 0, width, height), outline=0, fill=0)
-        draw.text((x, (height - font.getsize(message)[1]) // 2), message, font=font, fill=255)
+
+        # Draw the text on the image
+        draw.text((width, (height - font.getsize(message)[1]) // 2), message, font=font, fill=255)
 
         # Display the image
-        device.display(image)
+        disp.image(image)
+        disp.show()
 
-        # Scroll the text
-        x -= 1
-        if x < -text_width:
-            x = width
+        # Move the text to the left
+        width -= 1
+
+        # If the text has moved completely off the left side, reset its position
+        if width < -font.getsize(message)[0]:
+            width = disp.width
 
         # Pause for a short time
         time.sleep(0.05)
@@ -48,4 +52,5 @@ except KeyboardInterrupt:
     pass
 finally:
     # Clear the display on exit
-    device.clear()
+    disp.fill(0)
+    disp.show()

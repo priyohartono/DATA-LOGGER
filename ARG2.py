@@ -212,9 +212,9 @@ try:
         draw.rectangle((0, 0, width, height), outline=0, fill=0)
 
         # Draw the text and analog value on the image
-        draw.text((0, 0), "   ARG REKAYASA SMD", font=font, fill=255)
+        draw.text((0, 0), "   "+id+"", font=font, fill=255)
         draw.text((0, 12), " "+date_string_oled+"", font=font, fill=255)
-        draw.text((0, 23),"   RR:"+RR+" BATT:"+volt+"", font=font, fill=255)
+        draw.text((0, 23),"  RR:"+RR+"  BATT:"+volt+"", font=font, fill=255)
 
         # Display the image
         oled.image(image)

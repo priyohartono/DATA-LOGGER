@@ -205,7 +205,7 @@ try:
         data = date_string+";"+RR+";"+cpu_temp+";"+volt+""
 
        # Read analog value from ADS1115
-        analog_value = chan.volt
+        analog_value = chan.voltage
 
         # Clear the image
         draw.rectangle((0, 0, width, height), outline=0, fill=0)

@@ -251,6 +251,7 @@ try:
                 "id": id,
                 "site": site,
                 "rr": RR,
+                "batt": volt,
                 "log_temp": cpu_temp
             }
             message = json.dumps(message)

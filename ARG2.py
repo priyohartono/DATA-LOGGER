@@ -189,7 +189,8 @@ try:
         dt_utc = datetime.now(timezone.utc)
         
         # Convert to a string
-        date_string = dt_utc.strftime("%d-%m-%Y %H:%M:%S")
+        date_string = dt_utc.strftime("%d%m%Y%H%M%S")
+        date_string_oled = dt_utc.strftime("%d-%m-%Y %H:%M:%S")
 
         # Convert tip_count to rainfall measurement using the specifications of your rain gauge
         RR = format(tip_count * 0.2, ".1f")
@@ -202,7 +203,7 @@ try:
         volt = format(voltage * 5 , ".2f")
 
         # Pengumpulan data ke string
-        data = date_string+";"+RR+";"+cpu_temp+";"+volt+""
+        data = id+";"+date_string+";"+RR+";"+cpu_temp+""
 
        # Read analog value from ADS1115
         analog_value = chan.voltage
@@ -212,7 +213,7 @@ try:
 
         # Draw the text and analog value on the image
         draw.text((0, 0), "   ARG REKAYASA SMD", font=font, fill=255)
-        draw.text((0, 12), " "+date_string+"", font=font, fill=255)
+        draw.text((0, 12), " "+date_string_oled+"", font=font, fill=255)
         draw.text((0, 23),"   RR:"+RR+" BATT:"+volt+"", font=font, fill=255)
 
         # Display the image

@@ -46,7 +46,7 @@ try:
         width -= 1
 
         # If the text has moved completely off the left side, reset its position
-        if width < -font.getbox(message)[0]:
+        if width < -font.getlength(message)[0]:
             width = oled.width
 
         # Pause for a short time

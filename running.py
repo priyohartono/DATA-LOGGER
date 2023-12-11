@@ -3,7 +3,7 @@ import board
 import busio
 import adafruit_ssd1306
 from PIL import Image, ImageDraw, ImageFont
-from adafruit_ads1x15.analog_in import AnalogIn
+from adafruit_ads1x15.ads1115 import ADS1115, P0
 
 # Set up the I2C bus
 i2c = busio.I2C(board.SCL, board.SDA)
@@ -12,7 +12,8 @@ i2c = busio.I2C(board.SCL, board.SDA)
 oled = adafruit_ssd1306.SSD1306_I2C(128, 32, i2c)
 
 # Set up the ADS1115 ADC
-ads = AnalogIn(i2c)
+ads = ADS1115(i2c)
+chan = P0
 
 # Create a blank image for drawing
 width = oled.width
@@ -27,7 +28,7 @@ message = "Running text with ADS1115: "
 try:
     while True:
         # Read analog value from ADS1115
-        analog_value = ads.value
+        analog_value = ads[chan].value
 
         # Clear the image
         draw.rectangle((0, 0, width, height), outline=0, fill=0)

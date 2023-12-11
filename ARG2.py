@@ -213,7 +213,7 @@ try:
         # Draw the text and analog value on the image
         draw.text((0, 0), "   ARG REKAYASA SMD", font=font, fill=255)
         draw.text((0, 12), " "+date_string+"", font=font, fill=255)
-        draw.text((0, 24),"   RR:"+RR+" BATT:"+volt+"", font=font, fill=255)
+        draw.text((0, 23),"   RR:"+RR+" BATT:"+volt+"", font=font, fill=255)
 
         # Display the image
         oled.image(image)

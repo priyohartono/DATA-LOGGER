@@ -189,7 +189,7 @@ try:
         dt_utc = datetime.now(timezone.utc)
         
         # Convert to a string
-        date_string = dt_utc.strftime("%d%m%Y%H%M%S")
+        date_string = dt_utc.strftime("%d-%m-%Y %H:%M")
 
         # Convert tip_count to rainfall measurement using the specifications of your rain gauge
         RR = format(tip_count * 0.2, ".1f")
@@ -212,8 +212,8 @@ try:
 
         # Draw the text and analog value on the image
         draw.text((0, 0), "   ARG REKAYASA SMD", font=font, fill=255)
-        draw.text((0, 8), " date:"+date_string+"", font=font, fill=255)
-        draw.text((0, 16), "  RR:"+RR+" BATT:"+volt+"", font=font, fill=255)
+        draw.text((0, 8), date_string, font=font, fill=255)
+        draw.text((0, 16),"   RR:"+RR+" BATT:"+volt+"", font=font, fill=255)
 
         # Display the image
         oled.image(image)

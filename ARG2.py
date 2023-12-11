@@ -189,7 +189,7 @@ try:
         dt_utc = datetime.now(timezone.utc)
         
         # Convert to a string
-        date_string = dt_utc.strftime("%d-%m-%Y %H:%M")
+        date_string = dt_utc.strftime("%d-%m-%Y %H:%M:%S")
 
         # Convert tip_count to rainfall measurement using the specifications of your rain gauge
         RR = format(tip_count * 0.2, ".1f")

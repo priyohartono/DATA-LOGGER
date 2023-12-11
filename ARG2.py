@@ -214,7 +214,7 @@ try:
         draw.text((0, 0), "   ARG REKAYASA SMD", font=font, fill=255)
         draw.text((0, 8), " "+date_string+"", font=font, fill=255)
         draw.text((0, 16),"   RR:"+RR+" BATT:"+volt+"", font=font, fill=255)
-
+        draw.text((0, 32), "   ARG REKAYASA SMD", font=font, fill=255)
         # Display the image
         oled.image(image)
         oled.show()

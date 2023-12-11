@@ -29,7 +29,7 @@ message = "Running text with ADS1115: "
 try:
     while True:
         # Read analog value from ADS1115
-        analog_value = ads.value
+        analog_value = chan.value
 
         # Clear the image
         draw.rectangle((0, 0, width, height), outline=0, fill=0)

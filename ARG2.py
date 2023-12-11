@@ -51,23 +51,22 @@ bucket.when_pressed = count_tips
 date_utc = datetime.now(timezone.utc)
 date = date_utc.strftime("%d%m%Y")
 
-# Sensor tegangan
+# Set up the I2C bus
 i2c = busio.I2C(board.SCL, board.SDA)
+
+# Set up the OLED display
+oled = adafruit_ssd1306.SSD1306_I2C(128, 32, i2c)
+
+# Set up the ADS1115 ADC
 ads = ADS.ADS1115(i2c)
 chan = AnalogIn(ads, ADS.P0)
 
-# OLED
-disp = adafruit_ssd1306.SSD1306_I2C(128, 32, i2c)
-
-disp.fill(0)
-disp.show()
-
-width = disp.width
-height = disp.height
+# Create a blank image for drawing
+width = oled.width
+height = oled.height
 image = Image.new("1", (width, height))
 draw = ImageDraw.Draw(image)
 font = ImageFont.load_default()
-x = width
 
 # Ambil baris terakhir data 1 menit
 def get_line_1(filename1):
@@ -203,21 +202,24 @@ try:
         volt = format(voltage * 5 , ".2f")
 
         # Pengumpulan data ke string
-        data = id+";"+date_string+";"+RR+";"+cpu_temp+";"+volt+""
+        data = date_string+";"+RR+";"+cpu_temp+";"+volt+""
 
-        # Display the voltage on the OLED
-        text_width, text_height = draw.textlength(data, font)
-        
+       # Read analog value from ADS1115
+        analog_value = chan.value
+
+        # Clear the image
         draw.rectangle((0, 0, width, height), outline=0, fill=0)
-        draw.text((x, (height - text_height) // 2), data, font=font, fill=255)
-        disp.image(image)
-        disp.show()
 
-        x -= 1
-        if x < -text_width:
-            x = width
+        # Draw the text and analog value on the image
+        draw.text((0, 0), "ARG REKAYASA", font=font, fill=255)
+        draw.text((0, 16), f"Analog Value: {data}", font=font, fill=255)
 
-        time.sleep(0.05)
+        # Display the image
+        oled.image(image)
+        oled.show()
+
+        # Pause for a short time
+        time.sleep(0.5)
 
         # Fungsi CSV 1 menit
         def write_to_csv1(data):

@@ -205,15 +205,15 @@ try:
         data = date_string+";"+RR+";"+cpu_temp+";"+volt+""
 
        # Read analog value from ADS1115
-        analog_value = chan.value
+        analog_value = chan.volt
 
         # Clear the image
         draw.rectangle((0, 0, width, height), outline=0, fill=0)
 
         # Draw the text and analog value on the image
         draw.text((0, 0), "   ARG REKAYASA SMD", font=font, fill=255)
-        draw.text((0, 8), "date:"+date_string+"", font=font, fill=255)
-        draw.text((0, 16), "RR:"+RR+" BATT:"+volt+"", font=font, fill=255)
+        draw.text((0, 8), " date:"+date_string+"", font=font, fill=255)
+        draw.text((0, 16), "  RR:"+RR+" BATT:"+volt+"", font=font, fill=255)
 
         # Display the image
         oled.image(image)

@@ -211,8 +211,8 @@ try:
         draw.rectangle((0, 0, width, height), outline=0, fill=0)
 
         # Draw the text and analog value on the image
-        draw.text((0, 0), "ARG REKAYASA", font=font, fill=255)
-        draw.text((0, 16), f"Analog Value: {data}", font=font, fill=255)
+        draw.text((6, 0), "ARG REKAYASA", font=font, fill=255)
+        draw.text((0, 16), {data}, font=font, fill=255)
 
         # Display the image
         oled.image(image)

@@ -42,6 +42,13 @@ try:
         oled.image(image)
         oled.show()
 
+        # Move the text to the left
+        width -= 1
+
+        # If the text has moved completely off the left side, reset its position
+        if width < -font.getsize(message)[0]:
+            width = oled.width
+
         # Pause for a short time
         time.sleep(0.5)
 

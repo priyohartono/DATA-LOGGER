@@ -3,49 +3,49 @@ import board
 import busio
 import adafruit_ssd1306
 from PIL import Image, ImageDraw, ImageFont
-import adafruit_ads1x15.ads1115 as ADS
 from adafruit_ads1x15.analog_in import AnalogIn
 
-# Create the I2C bus
+# Set up the I2C bus
 i2c = busio.I2C(board.SCL, board.SDA)
 
-# Create the SSD1306 OLED class
-disp = adafruit_ssd1306.SSD1306_I2C(128, 32, i2c)
+# Set up the OLED display
+oled = adafruit_ssd1306.SSD1306_I2C(128, 32, i2c)
+
+# Set up the ADS1115 ADC
+ads = AnalogIn(i2c)
 
 # Create a blank image for drawing
-width = disp.width
-height = disp.height
+width = oled.width
+height = oled.height
 image = Image.new("1", (width, height))
 draw = ImageDraw.Draw(image)
 font = ImageFont.load_default()
 
-# Create the ADC object
-ads = ADS.ADS1115(i2c)
-analog_in = AnalogIn(ads, ADS.P0)  # Change to the appropriate analog input
+# Running text message
+message = "Running text with ADS1115: "
 
 try:
     while True:
+        # Read analog value from ADS1115
+        analog_value = ads.value
+
         # Clear the image
         draw.rectangle((0, 0, width, height), outline=0, fill=0)
 
-        # Read analog value from ADS1115
-        analog_value = analog_in.value
-        voltage = analog_in.voltage
-
-        # Display the analog value on OLED
-        message = f"Analog Value: {analog_value}\nVoltage: {voltage:.2f} V"
+        # Draw the text and analog value on the image
         draw.text((0, 0), message, font=font, fill=255)
+        draw.text((0, 16), f"Analog Value: {analog_value}", font=font, fill=255)
 
         # Display the image
-        disp.image(image)
-        disp.show()
+        oled.image(image)
+        oled.show()
 
         # Pause for a short time
-        time.sleep(1)
+        time.sleep(0.5)
 
 except KeyboardInterrupt:
     pass
 finally:
     # Clear the display on exit
-    disp.fill(0)
-    disp.show()
+    oled.fill(0)
+    oled.show()

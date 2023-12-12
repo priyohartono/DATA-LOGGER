@@ -9,6 +9,9 @@ from adafruit_ads1x15.analog_in import AnalogIn
 # Set up the I2C bus
 i2c = busio.I2C(board.SCL, board.SDA)
 
+# Set up the OLED display
+oled = adafruit_ssd1306.SSD1306_I2C(128, 32, i2c)
+
 # Create the ADC object using the I2C bus
 ads = ADS.ADS1115(i2c)
 

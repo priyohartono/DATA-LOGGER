@@ -1,4 +1,6 @@
 import time
+import machine
+from ssd1306 import SSD1306_I2C
 import Adafruit_SSD1306
 import Adafruit_ADS1115
 
@@ -16,7 +18,7 @@ text = 'Welcome to my OLED display!'
 
 # Scroll the text horizontally
 for i in range(10):
-    disp.clearDisplay()
+    disp.fill()
     disp.setTextSize(1)
     disp.setTextColor(1, 1, 1)
     disp.drawString(0, 0, text)

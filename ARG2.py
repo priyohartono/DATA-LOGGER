@@ -227,7 +227,7 @@ try:
         width -= 1
 
         # If the text has moved completely off the left side, reset its position
-        if width < -text_width:
+        if width < -draw.text:
             width = oled.width
 
         # Pause for a short time

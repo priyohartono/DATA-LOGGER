@@ -37,7 +37,7 @@ try:
         draw.rectangle((0, 0, width, height), outline=0, fill=0)
 
         # Draw the scrolling text and analog value on the image
-        text_width, text_height = draw.textsize(message, font=font)
+        text_width, text_height = draw.text(message, font=font)
         x = width
         y = (height - text_height) // 2
         draw.text((x, y), message, font=font, fill=255)

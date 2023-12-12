@@ -3,6 +3,7 @@ import board
 import busio
 import adafruit_ssd1306
 from PIL import Image, ImageDraw, ImageFont
+import adafruit_ads1x15.ads1115 as ADS
 from adafruit_ads1x15.analog_in import AnalogIn, P0
 
 # Set up the I2C bus
@@ -12,7 +13,7 @@ i2c = busio.I2C(board.SCL, board.SDA)
 oled = adafruit_ssd1306.SSD1306_I2C(128, 32, i2c)
 
 # Set up the ADS1115 ADC
-ads = AnalogIn(i2c, P0)
+ads = AnalogIn(i2c, ADS.P0)
 
 # Create a blank image for drawing
 width = oled.width

@@ -1,39 +1,61 @@
 import time
-import Adafruit_SSD1306
-import Adafruit_ADS1115
+import board
+import busio
+import adafruit_ssd1306
+from adafruit_ads1x15.analog_in import AnalogIn, P0
 
-# Initialize the SSD1306 display
-disp = Adafruit_SSD1306.SSD1306_128_32(0x3C)
+# Set up the I2C bus
+i2c = busio.I2C(board.SCL, board.SDA)
 
-# Initialize the ADS1115 driver
-ads = Adafruit_ADS1115.ADS1115()
+# Set up the OLED display
+oled = adafruit_ssd1306.SSD1306_I2C(128, 32, i2c)
 
-# Set the I2C address of the ADS1115 driver
-ads.set_i2c_addr(0x3C)
+# Set up the ADS1115 ADC
+ads = AnalogIn(i2c, P0)
 
-# Define the text to display
-text = 'Welcome to my OLED display!'
+# Display dimensions
+width = oled.width
+height = oled.height
 
-# Scroll the text horizontally
-for i in range(10):
-    disp.fill()
-    disp.setTextSize(1)
-    disp.setTextColor(1, 1, 1)
-    disp.drawString(0, 0, text)
-    disp.display()
-    time.sleep(0.1)
-    disp.startScrollRight(0, 0, 128, 32)
-    time.sleep(0.1)
-    disp.stopScroll()
+# Running text message
+message = "Scrolling text with ADS1115: "
 
-# Scroll the text vertically
-for i in range(10):
-    disp.clearDisplay()
-    disp.setTextSize(1)
-    disp.setTextColor(1, 1, 1)
-    disp.drawString(0, 0, text)
-    disp.display()
-    time.sleep(0.1)
-    disp.startScrollUp(0, 0, 128, 32)
-    time.sleep(0.1)
-    disp.stopScroll()
+# Create a framebuffer for the display
+buffer = bytearray((width // 8) * height)
+framebuf = adafruit_ssd1306.FrameBuffer(buffer, width, height, adafruit_ssd1306.MonoMode)
+
+try:
+    while True:
+        # Read analog value from ADS1115
+        analog_value = ads.value
+
+        # Clear the display
+        framebuf.fill(0)
+
+        # Draw the scrolling text and analog value on the framebuffer
+        x = width
+        y = (height - 8) // 2  # Assuming font height is 8 pixels
+
+        framebuf.text(message, x, y, 1)
+        framebuf.text(f"Analog: {analog_value}", 0, y + 10, 1)
+
+        # Move the text to the left
+        x -= 1
+
+        # If the text has moved completely off the left side, reset its position
+        if x < -len(message) * 8:
+            x = width
+
+        # Transfer the framebuffer to the display
+        oled.framebuf.blit(framebuf, 0, 0)
+        oled.show()
+
+        # Pause for a short time
+        time.sleep(0.05)
+
+except KeyboardInterrupt:
+    pass
+finally:
+    # Clear the display on exit
+    oled.fill(0)
+    oled.show()

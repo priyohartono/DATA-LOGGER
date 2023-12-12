@@ -43,7 +43,7 @@ try:
         draw.rectangle((0, 0, width, height), outline=0, fill=0)
 
         # Draw the scrolling text and analog value on the image
-        x = width
+        x = 0
         y = (height - 8) // 2  # Assuming font height is 8 pixels
         draw.text((0, 0), message, font=font, fill=255)
         draw.text((0, y + 10), f"Analog: {analog_value}", font=font, fill=255)

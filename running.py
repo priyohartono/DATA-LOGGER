@@ -16,7 +16,7 @@ try:
         # Scroll the text to the left
         for i in range(len(message) * font_width + device.width):
             with canvas(device) as draw:
-                draw.text((-i, 8), message, font=font, fill=255)
+                draw.text((-i, 8), message, fill=255)
 
             # Pause for a short time
             time.sleep(0.05)
@@ -26,4 +26,4 @@ except KeyboardInterrupt:
 finally:
     # Clear the display on exit
     with canvas(device) as draw:
-        draw.text((0, 8), " ", font=font, fill=255)
+        draw.text((0, 8), " ", fill=255)

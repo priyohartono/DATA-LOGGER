@@ -20,8 +20,4 @@ try:
             time.sleep(0.05)
 
 except KeyboardInterrupt:
-    pass
-finally:
-    # Clear the display on exit
-    with device as draw:
-        draw.text((0, 0), " ", fill="black")
+

@@ -22,7 +22,7 @@ try:
         # Scroll the text to the left
         for i in range(len(message) * 8 + 1):
             with canvas(device) as draw:
-                draw.text((-i, 0), message, fill="white")
+                draw.text((-i, 8), message, fill="white")
 
             # Pause for a short time
             time.sleep(0.05)

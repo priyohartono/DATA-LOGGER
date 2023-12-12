@@ -14,7 +14,7 @@ try:
     while True:
         # Clear the display
         with canvas(device) as draw:
-            draw.text((0, 0), message, fill="white")
+            draw.text((0, 16), message, fill="white")
 
         # Pause for a short time
         time.sleep(0.5)
@@ -22,7 +22,7 @@ try:
         # Scroll the text to the left
         for i in range(len(message) * 8 + 1):
             with canvas(device) as draw:
-                draw.text((-i, 8), message, fill="white")
+                draw.text((-i, 16), message, fill="white")
 
             # Pause for a short time
             time.sleep(0.05)
@@ -32,4 +32,4 @@ except KeyboardInterrupt:
 finally:
     # Clear the display on exit
     with canvas(device) as draw:
-        draw.text((0, 0), " ", fill="black")
+        draw.text((0, 16), " ", fill="black")

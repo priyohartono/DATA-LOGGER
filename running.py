@@ -13,7 +13,12 @@ i2c = busio.I2C(board.SCL, board.SDA)
 oled = adafruit_ssd1306.SSD1306_I2C(128, 32, i2c)
 
 # Set up the ADS1115 ADC
-ads = AnalogIn(i2c, ADS.P0)
+#ads = AnalogIn(i2c, ADS.P0)
+
+ads = ADS.ADS1115(i2c)
+
+# Choose a channel on the ADC
+chan = AnalogIn(ads, ADS.P0)
 
 # Display dimensions
 width = oled.width
@@ -32,7 +37,7 @@ draw = ImageDraw.Draw(image)
 try:
     while True:
         # Read analog value from ADS1115
-        analog_value = ads.value
+        analog_value = chan.value
 
         # Clear the display
         draw.rectangle((0, 0, width, height), outline=0, fill=0)

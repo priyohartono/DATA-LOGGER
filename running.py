@@ -1,5 +1,5 @@
 import time
-import adafruit_ads1115
+import adafruit_ads1x15.ads1115
 import adafruit_ssd1306
 
 # Initialize the SSD1306 display

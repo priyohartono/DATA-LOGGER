@@ -14,7 +14,7 @@ font_width = 12  # Assuming font width is 8 pixels
 try:
     while True:
         # Scroll the text to the left
-        for i in range(len(message) * font_width + device.width):
+        for i in range(len(message)):
             with canvas(device) as draw:
                 draw.text((-i, 8), message, fill=255)
 

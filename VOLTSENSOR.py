@@ -9,8 +9,6 @@ from PIL import Image, ImageDraw, ImageFont
 # Create the I2C bus
 i2c = busio.I2C(board.SCL, board.SDA)
 
-
-
 # Create the ADS1115 object
 ads = ADS.ADS1115(i2c)
 

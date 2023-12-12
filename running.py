@@ -1,15 +1,22 @@
 import time
-import adafruit_ads1x15.ads1115
+import board
+import busio
+import adafruit_ads1x15.ads1115 as ADS
+from adafruit_ads1x15.analog_in import AnalogIn
 import adafruit_ssd1306
+from PIL import Image, ImageDraw, ImageFont
 
-# Initialize the SSD1306 display
-disp = adafruit_ssd1306.SSD1306(0x3C, 128, 32)
+# Create the I2C bus
+i2c = busio.I2C(board.SCL, board.SDA)
 
-# Initialize the ADS1115 driver
-ads = adafruit_ads1115.ADS1115()
+# Create the ADS1115 object
+ads = ADS.ADS1115(i2c)
 
-# Set the I2C address of the ADS1115 driver
-ads.set_i2c_addr(0x3C)
+# Create an analog input channel on pin A0
+chan = AnalogIn(ads, ADS.P0)
+
+# Create the SSD1306 OLED class
+disp = adafruit_ssd1306.SSD1306_I2C(128, 32, i2c)
 
 # Define the text to display
 text = 'Welcome to my OLED display!'

@@ -68,6 +68,9 @@ image = Image.new("1", (width, height))
 draw = ImageDraw.Draw(image)
 font = ImageFont.load_default()
 
+# Display settings
+scroll_speed = 0.05  # Adjust the speed of scrolling
+
 # Ambil baris terakhir data 1 menit
 def get_line_1(filename1):
     try:
@@ -220,8 +223,18 @@ try:
         oled.image(image)
         oled.show()
 
+        # Move the text to the left
+        width -= 1
+
+        # If the text has moved completely off the left side, reset its position
+        if width < -text_width:
+            width = oled.width
+
         # Pause for a short time
-        time.sleep(0.5)
+        time.sleep(scroll_speed)
+
+        # Pause for a short time
+        #time.sleep(0.5)
 
         # Fungsi CSV 1 menit
         def write_to_csv1(data):

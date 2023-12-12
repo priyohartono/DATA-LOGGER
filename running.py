@@ -9,7 +9,7 @@ device = ssd1306(serial)
 
 # Running text message
 message = "Scrolling text on OLED: "
-font_width = 8  # Assuming font width is 8 pixels
+font_width = 16  # Assuming font width is 8 pixels
 
 try:
     while True:

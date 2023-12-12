@@ -1,62 +1,35 @@
 import time
-import board
-import busio
-import adafruit_ssd1306
-import adafruit_ads1x15.ads1115 as ADS
-from adafruit_ads1x15.analog_in import AnalogIn
-
-# Set up the I2C bus
-i2c = busio.I2C(board.SCL, board.SDA)
+from luma.core.interface.serial import i2c
+from luma.oled.device import ssd1306
+from luma.core.render import canvas
 
 # Set up the OLED display
-oled = adafruit_ssd1306.SSD1306_I2C(128, 32, i2c)
-
-# Set up the ADS1115 ADC
-ads = AnalogIn(i2c, ADS.P0)
-
-# Display dimensions
-width = oled.width
-height = oled.height
+serial = i2c(port=1, address=0x3C)
+device = ssd1306(serial)
 
 # Running text message
-message = "Scrolling text with ADS1115: "
-
-# Create a framebuffer for the display
-buffer = bytearray((width // 8) * height)
-framebuf = adafruit_ssd1306.FrameBuffer(buffer, width, height, adafruit_ssd1306.MonoMode)
+message = "Scrolling text on OLED: "
 
 try:
     while True:
-        # Read analog value from ADS1115
-        analog_value = ads.value
-
         # Clear the display
-        framebuf.fill(0)
-
-        # Draw the scrolling text and analog value on the framebuffer
-        x = width
-        y = (height - 8) // 2  # Assuming font height is 8 pixels
-
-        framebuf.text(message, x, y, 1)
-        framebuf.text(f"Analog: {analog_value}", 0, y + 10, 1)
-
-        # Move the text to the left
-        x -= 1
-
-        # If the text has moved completely off the left side, reset its position
-        if x < -len(message) * 8:
-            x = width
-
-        # Transfer the framebuffer to the display
-        oled.framebuf.blit(framebuf, 0, 0)
-        oled.show()
+        with canvas(device) as draw:
+            draw.text((0, 0), message, fill="white")
 
         # Pause for a short time
-        time.sleep(0.05)
+        time.sleep(0.5)
+
+        # Scroll the text to the left
+        for i in range(len(message) * 8 + 1):
+            with canvas(device) as draw:
+                draw.text((-i, 0), message, fill="white")
+
+            # Pause for a short time
+            time.sleep(0.05)
 
 except KeyboardInterrupt:
     pass
 finally:
     # Clear the display on exit
-    oled.fill(0)
-    oled.show()
+    with canvas(device) as draw:
+        draw.text((0, 0), " ", fill="black")

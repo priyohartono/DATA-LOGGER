@@ -1,12 +1,12 @@
 import time
-import Adafruit_SSD1306
-import Adafruit_ADS1115
+import adafruit_ads1115
+import adafruit_ssd1306
 
 # Initialize the SSD1306 display
-disp = Adafruit_SSD1306.SSD1306(0x3C, 128, 32)
+disp = adafruit_ssd1306.SSD1306(0x3C, 128, 32)
 
 # Initialize the ADS1115 driver
-ads = Adafruit_ADS1115.ADS1115()
+ads = adafruit_ads1115.ADS1115()
 
 # Set the I2C address of the ADS1115 driver
 ads.set_i2c_addr(0x3C)

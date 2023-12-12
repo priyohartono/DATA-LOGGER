@@ -203,7 +203,7 @@ try:
         volt = format(voltage * 5 , ".2f")
 
         # Pengumpulan data ke string
-        data = id+";"+date_string+";"+RR+";"+cpu_temp+""
+        data = id+";"+date_string+";"+RR+";"+volt+";"+cpu_temp+""
 
        # Read analog value from ADS1115
         analog_value = chan.voltage

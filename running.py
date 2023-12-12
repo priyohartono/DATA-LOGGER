@@ -9,11 +9,11 @@ from adafruit_ads1x15.analog_in import AnalogIn
 # Set up the I2C bus
 i2c = busio.I2C(board.SCL, board.SDA)
 
-# Set up the OLED display
-oled = adafruit_ssd1306.SSD1306_I2C(128, 32, i2c)
+# Create the ADC object using the I2C bus
+ads = ADS.ADS1115(i2c)
 
-# Set up the ADS1115 ADC
-ads = AnalogIn(i2c, ADS.P0)
+# Choose a channel on the ADC
+channel = AnalogIn(ads, ADS.P0)
 
 # Create a blank image for drawing
 width = oled.width
@@ -28,7 +28,7 @@ message = "Scrolling text with ADS1115: "
 try:
     while True:
         # Read analog value from ADS1115
-        analog_value = ads.value
+        analog_value = channel.value
 
         # Clear the image
         draw.rectangle((0, 0, width, height), outline=0, fill=0)

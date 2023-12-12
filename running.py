@@ -4,7 +4,7 @@ import busio
 import adafruit_ssd1306
 from PIL import Image, ImageDraw, ImageFont
 import adafruit_ads1x15.ads1115 as ADS
-from adafruit_ads1x15.analog_in import AnalogIn, P0
+from adafruit_ads1x15.analog_in import AnalogIn
 
 # Set up the I2C bus
 i2c = busio.I2C(board.SCL, board.SDA)

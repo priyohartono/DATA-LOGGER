@@ -1,6 +1,4 @@
 import time
-import machine
-from ssd1306 import SSD1306_I2C
 import Adafruit_SSD1306
 import Adafruit_ADS1115
 

@@ -39,7 +39,7 @@ print("..........STARTING ARG.........")
 time.sleep(2)
 
 # Counter
-bucket = Button(17)  #GPIO pin connected to the tipping bucket rain gauge
+bucket = Button(4)  #GPIO pin connected to the tipping bucket rain gauge
 tip_count = 0
 
 def count_tips():

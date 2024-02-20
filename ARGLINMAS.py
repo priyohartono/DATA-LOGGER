@@ -16,7 +16,7 @@ from PIL import Image, ImageDraw, ImageFont
 
 
 # Get ID Stations
-id = "96607"
+id = "9660"
 site = "ARG REK SAMARINDA"
 
 # CSV log file

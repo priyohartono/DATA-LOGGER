@@ -150,7 +150,7 @@ def delete_first_line_in_csv(filenametemp):
 #MQTT
 def send_MQTT(message):
     try:
-        client = mqtt.Client()
+        client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION1)
         client.username_pw_set(username,password)
         client.connect(broker_ip,broker_port)
         client.publish(topic, message)

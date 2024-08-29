@@ -235,7 +235,7 @@ try:
             time.sleep(1)
 
         # Reset tip count at midnight (UTC)
-        if dt_utc.hour == 0 and dt_utc.minute == 0 and dt_utc.second == 30:
+        if dt_utc.hour == 0 and dt_utc.minute == 0 and dt_utc.second == 15:
             reset_tip_count()
 
         # Pengiriman ulang data gagal kirim       

@@ -9,8 +9,8 @@ import paho.mqtt.client as mqtt
 import json
 
 # Get ID Stations
-id = "150064"
-site = "ARG Sebulu"
+id = "STG1077"
+site = "ARG Long Ikis"
 
 # CSV log file
 filename1 = 'data1menit.csv'
@@ -20,9 +20,9 @@ filenametemp = 'temp.csv'
 #MQTT
 broker_ip = "202.90.198.159"
 broker_port = 1883
-username = "bmkg_aws"
-password = "bmkg_aws123"
-topic = "device/KalTim/arg/150064"
+username = "99etl"
+password = "yvzwg"
+topic = "device/8txi0sz114jui94/"
 
 # HTTP
 url = "http://202.90.198.212/logger/write.php?dat="
